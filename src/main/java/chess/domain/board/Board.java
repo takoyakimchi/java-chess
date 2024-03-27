@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 public class Board {
 
     private static final double LOSE_SCORE = 0.0;
-    private static final double PAWN_PENALTY_SCORE = -0.5;
+    private static final double PAWN_PENALTY_SCORE = 0.5;
 
     private final Map<Position, Piece> board;
 
@@ -64,19 +64,23 @@ public class Board {
         if (!board.containsValue(new King(color))) {
             return LOSE_SCORE;
         }
-        double generalScore = board.values()
+        return generalScore(color) - penaltyScore(color);
+    }
+
+    private double generalScore(Color color) {
+        return board.values()
             .stream()
             .filter(piece -> piece.isColored(color))
             .mapToDouble(Piece::score)
             .sum();
-        return generalScore + PAWN_PENALTY_SCORE * penalizedPawnAmount(color);
     }
 
-    private long penalizedPawnAmount(Color color) {
-        return IntStream.rangeClosed(1, 8)
+    private double penaltyScore(Color color) {
+        long penalizedPawnAmount = IntStream.rangeClosed(1, 8)
             .mapToLong(file -> pawnAmountOnFile(file, color))
             .filter(number -> number >= 2)
             .sum();
+        return PAWN_PENALTY_SCORE * penalizedPawnAmount;
     }
 
     private long pawnAmountOnFile(int file, Color color) {
