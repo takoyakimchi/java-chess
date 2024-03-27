@@ -1,12 +1,18 @@
 package chess.domain.board;
 
 import chess.domain.piece.Color;
+import chess.domain.piece.King;
 import chess.domain.piece.NoPiece;
+import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class Board {
+
+    private static final double LOSE_SCORE = 0.0;
+    private static final double PAWN_PENALTY_SCORE = -0.5;
 
     private final Map<Position, Piece> board;
 
@@ -23,6 +29,10 @@ public class Board {
         validateMove(source, target, color);
         board.put(source, new NoPiece(Color.NO_COLOR));
         board.put(target, piece);
+    }
+
+    public Piece findPieceAt(Position position) {
+        return board.get(position);
     }
 
     private void validateMove(Position source, Position target, Color color) {
@@ -50,7 +60,28 @@ public class Board {
         throw new IllegalArgumentException("말의 규칙에 맞지 않는 이동입니다.");
     }
 
-    public Piece findPieceAt(Position position) {
-        return board.get(position);
+    public double totalScore(Color color) {
+        if (!board.containsValue(new King(color))) {
+            return LOSE_SCORE;
+        }
+        double generalScore = board.values()
+            .stream()
+            .filter(piece -> piece.isColored(color))
+            .mapToDouble(Piece::score)
+            .sum();
+        return generalScore + PAWN_PENALTY_SCORE * penalizedPawnAmount(color);
+    }
+
+    private long penalizedPawnAmount(Color color) {
+        return IntStream.rangeClosed(1, 8)
+            .mapToLong(file -> pawnAmountOnFile(file, color))
+            .filter(number -> number >= 2)
+            .sum();
+    }
+
+    private long pawnAmountOnFile(int file, Color color) {
+        return IntStream.rangeClosed(1, 8)
+            .filter(rank -> findPieceAt(Position.of(file, rank)).equals(new Pawn(color)))
+            .count();
     }
 }

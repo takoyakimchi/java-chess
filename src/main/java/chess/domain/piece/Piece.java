@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +16,7 @@ public abstract class Piece {
 
     public abstract boolean exists();
 
-    public abstract Score score();
+    public abstract double score();
 
     public boolean doesNotExist() {
         return !exists();
@@ -25,6 +24,10 @@ public abstract class Piece {
 
     public boolean isWhite() {
         return color == Color.WHITE;
+    }
+
+    public boolean isColored(Color color) {
+        return this.color == color;
     }
 
     public boolean isNotColored(Color color) {

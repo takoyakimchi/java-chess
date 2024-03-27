@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public Score score() {
-        return Score.valueOf(1.0);
+    public double score() {
+        return 1.0;
     }
 }

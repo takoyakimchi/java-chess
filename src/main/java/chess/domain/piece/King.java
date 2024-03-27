@@ -1,6 +1,5 @@
 package chess.domain.piece;
 
-import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class King extends Piece {
     }
 
     @Override
-    public Score score() {
-        return Score.valueOf(0.0);
+    public double score() {
+        return 0.0;
     }
 }

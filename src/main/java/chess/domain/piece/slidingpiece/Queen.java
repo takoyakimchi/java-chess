@@ -9,7 +9,6 @@ import static chess.domain.piece.slidingpiece.Direction.UP;
 import static chess.domain.piece.slidingpiece.Direction.UP_LEFT;
 import static chess.domain.piece.slidingpiece.Direction.UP_RIGHT;
 
-import chess.domain.game.Score;
 import chess.domain.piece.Color;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class Queen extends SlidingPiece {
     }
 
     @Override
-    public Score score() {
-        return Score.valueOf(9.0);
+    public double score() {
+        return 9.0;
     }
 }

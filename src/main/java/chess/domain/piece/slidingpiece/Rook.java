@@ -5,7 +5,6 @@ import static chess.domain.piece.slidingpiece.Direction.LEFT;
 import static chess.domain.piece.slidingpiece.Direction.RIGHT;
 import static chess.domain.piece.slidingpiece.Direction.UP;
 
-import chess.domain.game.Score;
 import chess.domain.piece.Color;
 import java.util.Set;
 
@@ -21,7 +20,7 @@ public class Rook extends SlidingPiece {
     }
 
     @Override
-    public Score score() {
-        return Score.valueOf(5.0);
+    public double score() {
+        return 5.0;
     }
 }
