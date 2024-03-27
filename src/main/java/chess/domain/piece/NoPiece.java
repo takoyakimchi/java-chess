@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 
@@ -17,5 +18,10 @@ public class NoPiece extends Piece {
     @Override
     public boolean exists() {
         return false;
+    }
+
+    @Override
+    public Score score() {
+        return Score.valueOf(0.0);
     }
 }

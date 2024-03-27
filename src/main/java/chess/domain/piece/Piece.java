@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 import java.util.Objects;
@@ -15,6 +16,8 @@ public abstract class Piece {
     public abstract boolean canMove(Position source, Position target, Map<Position, Piece> board);
 
     public abstract boolean exists();
+
+    public abstract Score score();
 
     public boolean doesNotExist() {
         return !exists();

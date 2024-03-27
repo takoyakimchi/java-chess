@@ -1,5 +1,6 @@
 package chess.domain.piece;
 
+import chess.domain.game.Score;
 import chess.domain.position.Position;
 import java.util.Map;
 
@@ -25,5 +26,10 @@ public class Knight extends Piece {
     @Override
     public boolean exists() {
         return true;
+    }
+
+    @Override
+    public Score score() {
+        return Score.valueOf(2.5);
     }
 }
