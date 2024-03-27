@@ -12,10 +12,10 @@ public class Pawn extends Piece {
     @Override
     public boolean canMove(Position source, Position target, Map<Position, Piece> board) {
         if (target.equals(source.forward(color()))) {
-            return board.get(target).doesNotExist();
+            return board.get(target).isEmpty();
         }
         if (target.equals(source.forward(color()).forward(color()))) {
-            return board.get(source.forward(color())).doesNotExist() && board.get(target).doesNotExist();
+            return board.get(source.forward(color())).isEmpty() && board.get(target).isEmpty();
         }
         if (target.equals(source.forward(color()).left()) || target.equals(source.forward(color()).right())) {
             return board.get(target).hasOppositeColorFrom(this);
@@ -24,8 +24,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean exists() {
-        return true;
+    public boolean isEmpty() {
+        return false;
     }
 
     @Override

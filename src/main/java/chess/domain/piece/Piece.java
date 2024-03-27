@@ -14,13 +14,9 @@ public abstract class Piece {
 
     public abstract boolean canMove(Position source, Position target, Map<Position, Piece> board);
 
-    public abstract boolean exists();
+    public abstract boolean isEmpty();
 
     public abstract double score();
-
-    public boolean doesNotExist() {
-        return !exists();
-    }
 
     public boolean isWhite() {
         return color == Color.WHITE;

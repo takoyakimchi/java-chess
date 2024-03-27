@@ -15,8 +15,8 @@ public class NoPiece extends Piece {
     }
 
     @Override
-    public boolean exists() {
-        return false;
+    public boolean isEmpty() {
+        return true;
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Board {
     }
 
     private void validateNoPieceAtSource(Position source) {
-        if (!findPieceAt(source).exists()) {
+        if (findPieceAt(source).isEmpty()) {
             throw new IllegalArgumentException("출발점에 말이 없습니다.");
         }
     }

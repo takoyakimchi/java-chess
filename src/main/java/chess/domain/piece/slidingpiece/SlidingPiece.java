@@ -18,12 +18,12 @@ public abstract class SlidingPiece extends Piece {
     public boolean canMove(Position source, Position target, Map<Position, Piece> board) {
         return isValidDirection(source, target)
             && isNoPieceOnRoute(source, target, board)
-            && (board.get(target).doesNotExist() || board.get(target).hasOppositeColorFrom(this));
+            && (board.get(target).isEmpty() || board.get(target).hasOppositeColorFrom(this));
     }
 
     @Override
-    public boolean exists() {
-        return true;
+    public boolean isEmpty() {
+        return false;
     }
 
     private boolean isValidDirection(Position source, Position target) {
@@ -42,7 +42,7 @@ public abstract class SlidingPiece extends Piece {
     private boolean isNoPieceOnRoute(Position source, Position target, Map<Position, Piece> board) {
         Direction direction = Direction.of(source, target);
         Position current = source.nextPosition(direction);
-        while (!current.equals(target) && board.get(current).doesNotExist()) {
+        while (!current.equals(target) && board.get(current).isEmpty()) {
             current = current.nextPosition(direction);
         }
         return current.equals(target);

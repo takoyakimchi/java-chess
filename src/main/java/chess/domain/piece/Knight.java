@@ -16,15 +16,15 @@ public class Knight extends Piece {
 
         if ((Math.abs(fileDifference) == 1 && Math.abs(rankDifference) == 2)
             || (Math.abs(fileDifference) == 2 && Math.abs(rankDifference) == 1)) {
-            return board.get(target).doesNotExist() || board.get(target).hasOppositeColorFrom(this);
+            return board.get(target).isEmpty() || board.get(target).hasOppositeColorFrom(this);
         }
 
         return false;
     }
 
     @Override
-    public boolean exists() {
-        return true;
+    public boolean isEmpty() {
+        return false;
     }
 
     @Override
