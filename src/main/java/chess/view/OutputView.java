@@ -1,6 +1,10 @@
 package chess.view;
 
+import static chess.domain.game.WinStatus.BLACK_WIN;
+import static chess.domain.game.WinStatus.WHITE_WIN;
+
 import chess.domain.board.Board;
+import chess.domain.game.WinStatus;
 import chess.domain.piece.King;
 import chess.domain.piece.Knight;
 import chess.domain.piece.NoPiece;
@@ -72,5 +76,20 @@ public class OutputView {
             return pieceText.toLowerCase();
         }
         return pieceText;
+    }
+
+    public void printStatus(WinStatusDto winStatusDto) {
+        System.out.printf("현재 게임 결과: %s%n", winStatusMessage(winStatusDto.winStatus()));
+        System.out.printf("WHITE의 점수: %.1f, BLACK의 점수: %.1f%n", winStatusDto.whiteScore(), winStatusDto.blackScore());
+    }
+
+    private String winStatusMessage(WinStatus winStatus) {
+        if (winStatus == WHITE_WIN) {
+            return "WHITE 승";
+        }
+        if (winStatus == BLACK_WIN) {
+            return "BLACK 승";
+        }
+        return "무승부";
     }
 }

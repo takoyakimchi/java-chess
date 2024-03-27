@@ -29,7 +29,12 @@ public class ChessApplication {
         if (command.isEnd()) {
             return;
         }
-        game = tryMove(game, command);
+        if (command.isStatus()) {
+            outputView.printStatus(game.decideWinStatus());
+        }
+        if (command.isMove()) {
+            game = tryMove(game, command);
+        }
         start(game);
     }
 

@@ -7,6 +7,7 @@ public class Command {
     private static final String START_COMMAND = "start";
     private static final String END_COMMAND = "end";
     private static final String MOVE_COMMAND = "move";
+    private static final String STATUS_COMMAND = "status";
     private static final String DELIMITER = " ";
 
     private static final Pattern MOVE_PARAMETERS_REGEX = Pattern.compile("^[a-h][1-8] [a-h][1-8]$");
@@ -30,7 +31,8 @@ public class Command {
     }
 
     private void validate(String prefix, String parameters) {
-        if (prefix.equals(START_COMMAND) || prefix.equals(END_COMMAND) || prefix.equals(MOVE_COMMAND)) {
+        if (prefix.equals(START_COMMAND) || prefix.equals(END_COMMAND)
+            || prefix.equals(MOVE_COMMAND) || prefix.equals(STATUS_COMMAND)) {
             return;
         }
         if (MOVE_PARAMETERS_REGEX.matcher(parameters).matches()) {
@@ -45,6 +47,14 @@ public class Command {
 
     public boolean isEnd() {
         return prefix.equals(END_COMMAND);
+    }
+
+    public boolean isMove() {
+        return prefix.equals(MOVE_COMMAND);
+    }
+
+    public boolean isStatus() {
+        return prefix.equals(STATUS_COMMAND);
     }
 
     public String sourcePosition() {

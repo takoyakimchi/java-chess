@@ -1,10 +1,12 @@
 package chess.domain.game;
 
+import static chess.domain.piece.Color.BLACK;
 import static chess.domain.piece.Color.WHITE;
 
 import chess.domain.board.Board;
 import chess.domain.piece.Color;
 import chess.domain.position.Position;
+import chess.view.WinStatusDto;
 
 public class Game {
 
@@ -23,6 +25,12 @@ public class Game {
     public Game move(Position source, Position target) {
         board.move(source, target, turn);
         return new Game(board, Color.oppose(turn));
+    }
+
+    public WinStatusDto decideWinStatus() {
+        double whiteScore = board.totalScore(WHITE);
+        double blackScore = board.totalScore(BLACK);
+        return new WinStatusDto(whiteScore, blackScore, WinStatus.decideWinStatus(whiteScore, blackScore));
     }
 
     public Board getBoard() {
