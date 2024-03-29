@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import static chess.domain.piece.Color.BLACK;
 import static chess.domain.piece.Color.WHITE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -102,5 +103,18 @@ class BoardTest {
         Board board = Board.generatedBy(() -> BOARD_MAP);
 
         assertThat(board.totalScore(WHITE)).isEqualTo(3.5);
+    }
+
+
+
+    @Test
+    @DisplayName("King의 개수를 셀 수 있다.")
+    void kingCount() {
+        BOARD_MAP.put(Position.of(4, 3), new King(WHITE));
+        BOARD_MAP.put(Position.of(4, 4), new King(BLACK));
+
+        Board board = Board.generatedBy(() -> BOARD_MAP);
+
+        assertThat(board.kingCount()).isEqualTo(2);
     }
 }

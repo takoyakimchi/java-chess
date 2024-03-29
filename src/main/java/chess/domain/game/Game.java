@@ -28,9 +28,16 @@ public class Game {
     }
 
     public Game move(Position source, Position target) {
-        GameState nextState = gameState.move();
         board.move(source, target, gameState.currentTurn());
+        GameState nextState = gameState.move();
+        if (isKingCaptured()) {
+            nextState = gameState.end();
+        }
         return new Game(board, nextState);
+    }
+
+    private boolean isKingCaptured() {
+        return board.kingCount() < 2;
     }
 
     public Game end() {

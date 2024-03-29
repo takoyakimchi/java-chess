@@ -1,5 +1,7 @@
 package chess.domain.board;
 
+import static chess.domain.piece.Color.*;
+
 import chess.domain.piece.Color;
 import chess.domain.piece.King;
 import chess.domain.piece.NoPiece;
@@ -28,12 +30,19 @@ public class Board {
     public void move(Position source, Position target, Color color) {
         Piece piece = board.get(source);
         validateMove(source, target, color);
-        board.put(source, new NoPiece(Color.NO_COLOR));
+        board.put(source, new NoPiece(NO_COLOR));
         board.put(target, piece);
     }
 
     public Piece findPieceAt(Position position) {
         return board.get(position);
+    }
+
+    public long kingCount() {
+        return board.values()
+            .stream()
+            .filter(piece -> piece.equals(new King(WHITE)) || piece.equals(new King(BLACK)))
+            .count();
     }
 
     private void validateMove(Position source, Position target, Color color) {
