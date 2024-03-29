@@ -40,6 +40,9 @@ public class ChessApplication {
         if (command.type() == CommandType.MOVE) {
             game = move(game, command);
         }
+        if (command.type() == CommandType.STATUS) {
+            outputView.printStatus(game.decideWinStatus());
+        }
         if (command.type() == CommandType.END) {
             game = end(game);
         }

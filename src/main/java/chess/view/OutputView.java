@@ -80,7 +80,7 @@ public class OutputView {
 
     public void printStatus(WinStatusDto winStatusDto) {
         System.out.printf("현재 게임 결과: %s%n", winStatusMessage(winStatusDto.winStatus()));
-        System.out.printf("WHITE의 점수: %.1f, BLACK의 점수: %.1f%n", winStatusDto.whiteScore(), winStatusDto.blackScore());
+        System.out.printf("WHITE의 점수: %.1f, BLACK의 점수: %.1f%n%n", winStatusDto.whiteScore(), winStatusDto.blackScore());
     }
 
     private String winStatusMessage(WinStatus winStatus) {
