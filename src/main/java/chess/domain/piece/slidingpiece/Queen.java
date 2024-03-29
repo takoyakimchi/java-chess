@@ -1,5 +1,7 @@
 package chess.domain.piece.slidingpiece;
 
+import static chess.domain.piece.Color.BLACK;
+import static chess.domain.piece.Color.WHITE;
 import static chess.domain.piece.slidingpiece.Direction.DOWN;
 import static chess.domain.piece.slidingpiece.Direction.DOWN_LEFT;
 import static chess.domain.piece.slidingpiece.Direction.DOWN_RIGHT;
@@ -14,8 +16,18 @@ import java.util.Set;
 
 public class Queen extends SlidingPiece {
 
-    public Queen(Color color) {
+    private static final Queen WHITE_QUEEN = new Queen(WHITE);
+    private static final Queen BLACK_QUEEN = new Queen(BLACK);
+
+    private Queen(Color color) {
         super(color);
+    }
+
+    public static Queen withColor(Color color) {
+        if (color == WHITE) {
+            return WHITE_QUEEN;
+        }
+        return BLACK_QUEEN;
     }
 
     @Override

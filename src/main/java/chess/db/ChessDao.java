@@ -27,7 +27,7 @@ public class ChessDao {
     public void saveBoard(Board board) {
         // end할 때마다 마지막 board를 저장하는 방식으로 한다.
 
-        Pawn pawn = new Pawn(Color.WHITE);
+        Pawn pawn = Pawn.withColor(Color.WHITE);
     }
 
     public Board readBoard() {

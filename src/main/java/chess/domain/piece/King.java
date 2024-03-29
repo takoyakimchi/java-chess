@@ -1,12 +1,25 @@
 package chess.domain.piece;
 
+import static chess.domain.piece.Color.BLACK;
+import static chess.domain.piece.Color.WHITE;
+
 import chess.domain.position.Position;
 import java.util.Map;
 
 public class King extends Piece {
 
-    public King(Color color) {
+    private static final King WHITE_KING = new King(WHITE);
+    private static final King BLACK_KING = new King(BLACK);
+
+    private King(Color color) {
         super(color);
+    }
+
+    public static King withColor(Color color) {
+        if (color == WHITE) {
+            return WHITE_KING;
+        }
+        return BLACK_KING;
     }
 
     @Override

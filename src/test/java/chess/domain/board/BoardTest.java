@@ -60,12 +60,12 @@ class BoardTest {
     @Test
     @DisplayName("퀸 + 룩 + 비숍 + 나이트 + 킹 + 폰 == 20.5점")
     void totalScore_General() {
-        BOARD_MAP.put(Position.of(1, 1), new Queen(WHITE));
-        BOARD_MAP.put(Position.of(1, 2), new Rook(WHITE));
-        BOARD_MAP.put(Position.of(1, 3), new Bishop(WHITE));
-        BOARD_MAP.put(Position.of(1, 4), new Knight(WHITE));
-        BOARD_MAP.put(Position.of(1, 5), new King(WHITE));
-        BOARD_MAP.put(Position.of(1, 6), new Pawn(WHITE));
+        BOARD_MAP.put(Position.of(1, 1), Queen.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 2), Rook.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 3), Bishop.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 4), Knight.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 5), King.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 6), Pawn.withColor(WHITE));
 
         Board board = Board.generatedBy(() -> BOARD_MAP);
 
@@ -75,11 +75,11 @@ class BoardTest {
     @Test
     @DisplayName("킹이 잡히면 0점")
     void totalScore_Zero_NoKing() {
-        BOARD_MAP.put(Position.of(1, 1), new Queen(WHITE));
-        BOARD_MAP.put(Position.of(1, 2), new Rook(WHITE));
-        BOARD_MAP.put(Position.of(1, 3), new Bishop(WHITE));
-        BOARD_MAP.put(Position.of(1, 4), new Knight(WHITE));
-        BOARD_MAP.put(Position.of(1, 5), new Pawn(WHITE));
+        BOARD_MAP.put(Position.of(1, 1), Queen.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 2), Rook.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 3), Bishop.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 4), Knight.withColor(WHITE));
+        BOARD_MAP.put(Position.of(1, 5), Pawn.withColor(WHITE));
 
         Board board = Board.generatedBy(() -> BOARD_MAP);
 
@@ -87,18 +87,18 @@ class BoardTest {
     }
 
     /**
-     * ........ 8 ........ 7 ........ 6 ...p.... 5   0.5 ...p.k.. 4   0.5     0.0 ...p.... 3   0.5 .....pp. 2
-     * 1.0     1.0 ........ 1 abcdefgh
+     * ........ 8 ........ 7 ........ 6 ...p.... 5   0.5 ...p.k.. 4   0.5     0.0 ...p.... 3   0.5 .....pp. 2 1.0
+     * 1.0 ........ 1 abcdefgh
      */
     @Test
     @DisplayName("같은 File에 폰 2개 + 킹 + 폰 + 폰 == 3점")
     void totalScore_TwoPawnsOnSameFile() {
-        BOARD_MAP.put(Position.of(4, 3), new Pawn(WHITE));
-        BOARD_MAP.put(Position.of(4, 4), new Pawn(WHITE));
-        BOARD_MAP.put(Position.of(4, 5), new Pawn(WHITE));
-        BOARD_MAP.put(Position.of(6, 4), new King(WHITE));
-        BOARD_MAP.put(Position.of(6, 2), new Pawn(WHITE));
-        BOARD_MAP.put(Position.of(7, 2), new Pawn(WHITE));
+        BOARD_MAP.put(Position.of(4, 3), Pawn.withColor(WHITE));
+        BOARD_MAP.put(Position.of(4, 4), Pawn.withColor(WHITE));
+        BOARD_MAP.put(Position.of(4, 5), Pawn.withColor(WHITE));
+        BOARD_MAP.put(Position.of(6, 4), King.withColor(WHITE));
+        BOARD_MAP.put(Position.of(6, 2), Pawn.withColor(WHITE));
+        BOARD_MAP.put(Position.of(7, 2), Pawn.withColor(WHITE));
 
         Board board = Board.generatedBy(() -> BOARD_MAP);
 
@@ -106,12 +106,11 @@ class BoardTest {
     }
 
 
-
     @Test
     @DisplayName("King의 개수를 셀 수 있다.")
     void kingCount() {
-        BOARD_MAP.put(Position.of(4, 3), new King(WHITE));
-        BOARD_MAP.put(Position.of(4, 4), new King(BLACK));
+        BOARD_MAP.put(Position.of(4, 3), King.withColor(WHITE));
+        BOARD_MAP.put(Position.of(4, 4), King.withColor(BLACK));
 
         Board board = Board.generatedBy(() -> BOARD_MAP);
 

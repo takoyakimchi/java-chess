@@ -24,8 +24,8 @@ class KnightTest {
     @ParameterizedTest(name = "(4,4)에서 ({0},{1})로 이동 가능")
     @CsvSource({"5,6", "3,6", "6,5", "6,3", "5,2", "3,2", "2,3", "2,5"})
     void canMove(int file, int rank) {
-        Piece knight = new Knight(Color.WHITE);
-        Piece captured = new Knight(Color.BLACK);
+        Piece knight = Knight.withColor(Color.WHITE);
+        Piece captured = Knight.withColor(Color.BLACK);
 
         Position source = Position.of(4, 4);
         Position target = Position.of(file, rank);
@@ -40,8 +40,8 @@ class KnightTest {
     @ParameterizedTest(name = "{0}: (4,4)에서 ({1},{2})로 이동 불가")
     @CsvSource({"이동 규칙 위반,3,3", "같은 위치,4,4", "자신의 말이 위치,5,6"})
     void cannotMove(String description, int file, int rank) {
-        Piece knight = new Knight(Color.WHITE);
-        Piece pawn = new Pawn(Color.WHITE);
+        Piece knight = Knight.withColor(Color.WHITE);
+        Piece pawn = Pawn.withColor(Color.WHITE);
 
         Position source = Position.of(4, 4);
         Position target = Position.of(file, rank);

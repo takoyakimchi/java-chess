@@ -29,8 +29,8 @@ class QueenTest {
     @ParameterizedTest(name = "(4,4)->({0},{1}) 가능")
     @CsvSource({"6,4", "2,4", "4,6", "4,2", "6,6", "2,2", "2,6", "6,2"})
     void canMove(int file, int rank) {
-        Piece queen = new Queen(WHITE);
-        Piece captured = new Knight(BLACK);
+        Piece queen = Queen.withColor(WHITE);
+        Piece captured = Knight.withColor(BLACK);
 
         Position source = Position.of(4, 4);
         Position target = Position.of(file, rank);
@@ -45,9 +45,9 @@ class QueenTest {
     @ParameterizedTest(name = "{0}: (4,4)->({1},{2}) 불가")
     @CsvSource({"이동 규칙 위반,5,6", "같은 위치,4,4", "자신의 말이 위치,4,6", "이동 경로에 말이 존재,4,2"})
     void cannotMove(String description, int file, int rank) {
-        Piece queen = new Queen(WHITE);
-        Piece ownPiece = new Pawn(WHITE);
-        Piece pieceOnRoute = new Pawn(BLACK);
+        Piece queen = Queen.withColor(WHITE);
+        Piece ownPiece = Pawn.withColor(WHITE);
+        Piece pieceOnRoute = Pawn.withColor(BLACK);
 
         Position source = Position.of(4, 4);
         Position target = Position.of(file, rank);

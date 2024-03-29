@@ -1,12 +1,25 @@
 package chess.domain.piece;
 
+import static chess.domain.piece.Color.BLACK;
+import static chess.domain.piece.Color.WHITE;
+
 import chess.domain.position.Position;
 import java.util.Map;
 
 public class Pawn extends Piece {
 
-    public Pawn(Color color) {
+    private static final Pawn WHITE_PAWN = new Pawn(WHITE);
+    private static final Pawn BLACK_PAWN = new Pawn(BLACK);
+
+    private Pawn(Color color) {
         super(color);
+    }
+
+    public static Pawn withColor(Color color) {
+        if (color == WHITE) {
+            return WHITE_PAWN;
+        }
+        return BLACK_PAWN;
     }
 
     @Override

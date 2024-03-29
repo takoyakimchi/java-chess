@@ -3,6 +3,7 @@ package chess.domain.board;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import chess.domain.piece.Color;
 import chess.domain.piece.King;
 import chess.domain.piece.Knight;
 import chess.domain.piece.slidingpiece.Bishop;
@@ -21,14 +22,14 @@ class InitialBoardGeneratorTest {
         Board board = Board.generatedBy(boardGenerator);
 
         assertAll(
-            () -> assertThat(board.findPieceAt(Position.of(1, 8))).isInstanceOf(Rook.class),
-            () -> assertThat(board.findPieceAt(Position.of(2, 8))).isInstanceOf(Knight.class),
-            () -> assertThat(board.findPieceAt(Position.of(3, 8))).isInstanceOf(Bishop.class),
-            () -> assertThat(board.findPieceAt(Position.of(4, 8))).isInstanceOf(Queen.class),
-            () -> assertThat(board.findPieceAt(Position.of(5, 8))).isInstanceOf(King.class),
-            () -> assertThat(board.findPieceAt(Position.of(6, 8))).isInstanceOf(Bishop.class),
-            () -> assertThat(board.findPieceAt(Position.of(7, 8))).isInstanceOf(Knight.class),
-            () -> assertThat(board.findPieceAt(Position.of(8, 8))).isInstanceOf(Rook.class)
+            () -> assertThat(board.findPieceAt(Position.of(1, 8))).isEqualTo(Rook.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(2, 8))).isEqualTo(Knight.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(3, 8))).isEqualTo(Bishop.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(4, 8))).isEqualTo(Queen.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(5, 8))).isEqualTo(King.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(6, 8))).isEqualTo(Bishop.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(7, 8))).isEqualTo(Knight.withColor(Color.BLACK)),
+            () -> assertThat(board.findPieceAt(Position.of(8, 8))).isEqualTo(Rook.withColor(Color.BLACK))
         );
     }
 }

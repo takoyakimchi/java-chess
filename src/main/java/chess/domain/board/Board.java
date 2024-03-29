@@ -1,6 +1,7 @@
 package chess.domain.board;
 
-import static chess.domain.piece.Color.*;
+import static chess.domain.piece.Color.BLACK;
+import static chess.domain.piece.Color.WHITE;
 
 import chess.domain.piece.Color;
 import chess.domain.piece.King;
@@ -30,7 +31,7 @@ public class Board {
     public void move(Position source, Position target, Color color) {
         Piece piece = board.get(source);
         validateMove(source, target, color);
-        board.put(source, new NoPiece(NO_COLOR));
+        board.put(source, NoPiece.getInstance());
         board.put(target, piece);
     }
 
@@ -41,7 +42,7 @@ public class Board {
     public long kingCount() {
         return board.values()
             .stream()
-            .filter(piece -> piece.equals(new King(WHITE)) || piece.equals(new King(BLACK)))
+            .filter(piece -> piece.equals(King.withColor(WHITE)) || piece.equals(King.withColor(BLACK)))
             .count();
     }
 
@@ -71,7 +72,7 @@ public class Board {
     }
 
     public double totalScore(Color color) {
-        if (!board.containsValue(new King(color))) {
+        if (!board.containsValue(King.withColor(color))) {
             return LOSE_SCORE;
         }
         return generalScore(color) - penaltyScore(color);
@@ -95,7 +96,7 @@ public class Board {
 
     private long pawnAmountOnFile(int file, Color color) {
         return IntStream.rangeClosed(1, 8)
-            .filter(rank -> findPieceAt(Position.of(file, rank)).equals(new Pawn(color)))
+            .filter(rank -> findPieceAt(Position.of(file, rank)).equals(Pawn.withColor(color)))
             .count();
     }
 

@@ -1,7 +1,6 @@
 package chess.domain.piece;
 
 import static chess.domain.piece.Color.BLACK;
-import static chess.domain.piece.Color.NO_COLOR;
 import static chess.domain.piece.Color.WHITE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -28,7 +27,7 @@ class PawnTest {
     @ParameterizedTest(name = "(2,2)에서 ({0},{1})로 이동 가능")
     @CsvSource({"2,3", "2,4"})
     void canMove_WhitePawn_Forward(int file, int rank) {
-        Piece pawn = new Pawn(WHITE);
+        Piece pawn = Pawn.withColor(WHITE);
         Position source = Position.of(2, 2);
         Position target = Position.of(file, rank);
 
@@ -41,7 +40,7 @@ class PawnTest {
     @ParameterizedTest(name = "(7,7)에서 ({0},{1})로 이동 가능")
     @CsvSource({"7,6", "7,5"})
     void canMove_BlackPawn_Forward(int file, int rank) {
-        Piece pawn = new Pawn(BLACK);
+        Piece pawn = Pawn.withColor(BLACK);
         Position source = Position.of(7, 7);
         Position target = Position.of(file, rank);
 
@@ -54,8 +53,8 @@ class PawnTest {
     @Test
     @DisplayName("폰 이동 가능 - 대각선으로 잡기")
     void canMove_Pawn_Capture() {
-        Piece whitePawn = new Pawn(WHITE);
-        Piece blackPawn = new Pawn(BLACK);
+        Piece whitePawn = Pawn.withColor(WHITE);
+        Piece blackPawn = Pawn.withColor(BLACK);
         Position source = Position.of(4, 4);
         Position target = Position.of(5, 5);
 
@@ -71,8 +70,8 @@ class PawnTest {
     @Test
     @DisplayName("흰색 폰 이동 불가 - 대각선에 말이 없는데 대각선 이동")
     void cannotMove_WhitePawn_NoPieceToCapture() {
-        Piece pawn = new Pawn(WHITE);
-        Piece noPiece = new NoPiece(NO_COLOR);
+        Piece pawn = Pawn.withColor(WHITE);
+        Piece noPiece = NoPiece.getInstance();
         Position source = Position.of(4, 4);
         Position target = Position.of(5, 5);
 
@@ -85,8 +84,8 @@ class PawnTest {
     @Test
     @DisplayName("검정색 폰 이동 불가 - 대각선에 말이 없는데 대각선 이동")
     void cannotMove_BlackPawn_NoPieceToCapture() {
-        Piece pawn = new Pawn(BLACK);
-        Piece noPiece = new NoPiece(NO_COLOR);
+        Piece pawn = Pawn.withColor(BLACK);
+        Piece noPiece = NoPiece.getInstance();
         Position source = Position.of(4, 4);
         Position target = Position.of(3, 3);
 
@@ -99,8 +98,8 @@ class PawnTest {
     @Test
     @DisplayName("폰 이동 불가 - 전진으로 잡기 불가")
     void cannotMove_WhitePawn_MoveForwardToCapture() {
-        Piece whitePawn = new Pawn(WHITE);
-        Piece blackPawn = new Pawn(BLACK);
+        Piece whitePawn = Pawn.withColor(WHITE);
+        Piece blackPawn = Pawn.withColor(BLACK);
         Position source = Position.of(4, 4);
         Position target = Position.of(4, 5);
 
@@ -116,7 +115,7 @@ class PawnTest {
     @Test
     @DisplayName("흰색 폰 이동 불가 - 뒤로")
     void cannotMove_WhitePawn_Backward() {
-        Piece pawn = new Pawn(WHITE);
+        Piece pawn = Pawn.withColor(WHITE);
         Position source = Position.of(4, 4);
         Position target = Position.of(4, 3);
 
@@ -128,7 +127,7 @@ class PawnTest {
     @Test
     @DisplayName("검정색 폰 이동 불가 - 뒤로")
     void cannotMove_BlackPawn_Backward() {
-        Piece pawn = new Pawn(BLACK);
+        Piece pawn = Pawn.withColor(BLACK);
         Position source = Position.of(4, 4);
         Position target = Position.of(4, 5);
 
