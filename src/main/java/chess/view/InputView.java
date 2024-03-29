@@ -11,7 +11,7 @@ public class InputView {
     private final Scanner scanner = new Scanner(System.in);
 
     public Command readCommand() {
-        return Command.from(scanner.nextLine());
+        return Command.from(readLine());
     }
 
     public Position resolvePosition(String rawPosition) {
@@ -21,5 +21,9 @@ public class InputView {
             return Position.of(file, rank);
         }
         throw new IllegalArgumentException("말의 위치를 a1, h8과 같은 형태로 입력해 주세요.");
+    }
+
+    private String readLine() {
+        return scanner.nextLine();
     }
 }

@@ -1,73 +1,30 @@
 package chess.view;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Command {
 
-    private static final String START_COMMAND = "start";
-    private static final String END_COMMAND = "end";
-    private static final String MOVE_COMMAND = "move";
-    private static final String STATUS_COMMAND = "status";
-    private static final String DELIMITER = " ";
+    public static final String DELIMITER = " ";
+    private final CommandType type;
+    private final List<String> arguments;
 
-    private static final Pattern MOVE_PARAMETERS_REGEX = Pattern.compile("^[a-h][1-8] [a-h][1-8]$");
-
-    private final String prefix;
-    private final String parameters;
-
-    private Command(String prefix, String parameters) {
-        validate(prefix, parameters);
-        this.prefix = prefix;
-        this.parameters = parameters;
+    private Command(CommandType type, List<String> arguments) {
+        this.type = type;
+        this.arguments = arguments;
     }
 
     public static Command from(String command) {
-        String[] splitCommand = command.split(DELIMITER, 2);
-        String prefix = splitCommand[0];
-        if (splitCommand.length > 1) {
-            return new Command(prefix, splitCommand[1]);
-        }
-        return new Command(prefix, "");
+        List<String> inputs = Arrays.stream(command.split(DELIMITER)).toList();
+        return new Command(CommandType.from(command), new ArrayList<>(inputs.subList(1, inputs.size())));
     }
 
-    private void validate(String prefix, String parameters) {
-        if (prefix.equals(START_COMMAND) || prefix.equals(END_COMMAND)
-            || prefix.equals(MOVE_COMMAND) || prefix.equals(STATUS_COMMAND)) {
-            return;
-        }
-        if (MOVE_PARAMETERS_REGEX.matcher(parameters).matches()) {
-            return;
-        }
-        throw new IllegalArgumentException("올바른 명령어를 입력해 주세요.");
+    public CommandType type() {
+        return type;
     }
 
-    public boolean isStart() {
-        return prefix.equals(START_COMMAND);
-    }
-
-    public boolean isEnd() {
-        return prefix.equals(END_COMMAND);
-    }
-
-    public boolean isMove() {
-        return prefix.equals(MOVE_COMMAND);
-    }
-
-    public boolean isStatus() {
-        return prefix.equals(STATUS_COMMAND);
-    }
-
-    public String sourcePosition() {
-        if (prefix.equals(MOVE_COMMAND)) {
-            return parameters.split(DELIMITER)[0];
-        }
-        throw new IllegalStateException("move 명령어의 시작점을 찾을 수 없습니다.");
-    }
-
-    public String targetPosition() {
-        if (prefix.equals(MOVE_COMMAND)) {
-            return parameters.split(DELIMITER)[1];
-        }
-        throw new IllegalStateException("move 명령어의 도착점을 찾을 수 없습니다.");
+    public String argumentOf(int index) {
+        return arguments.get(index);
     }
 }
