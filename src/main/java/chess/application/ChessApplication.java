@@ -8,6 +8,7 @@ import chess.view.Command;
 import chess.view.CommandType;
 import chess.view.InputView;
 import chess.view.OutputView;
+import java.util.Map;
 
 public class ChessApplication {
 
@@ -26,27 +27,25 @@ public class ChessApplication {
     private static Game play(Game game) {
         try {
             Command command = inputView.readCommand();
-            return executeCommand(command, game);
+            return executeCommand(game, command);
         } catch (UnsupportedOperationException | IllegalArgumentException exception) {
             outputView.printMessage(exception.getMessage());
             return play(game);
         }
     }
 
-    private static Game executeCommand(Command command, Game game) {
-        if (command.type() == CommandType.START) {
-            game = start(game);
-        }
-        if (command.type() == CommandType.MOVE) {
-            game = move(game, command);
-        }
-        if (command.type() == CommandType.STATUS) {
-            showStatus(game);
-        }
-        if (command.type() == CommandType.END) {
-            game = end(game);
-        }
-        return game;
+    private static Game executeCommand(Game game, Command command) {
+        Map<CommandType, CommandExecutor> commandExecutionMap = commandExecutionMap(game, command);
+        return commandExecutionMap.get(command.type()).execute();
+    }
+
+    private static Map<CommandType, CommandExecutor> commandExecutionMap(Game game, Command command) {
+        return Map.of(
+            CommandType.START, () -> start(game),
+            CommandType.MOVE, () -> move(game, command),
+            CommandType.STATUS, () -> showStatus(game),
+            CommandType.END, () -> end(game)
+        );
     }
 
     private static Game start(Game game) {
@@ -63,8 +62,9 @@ public class ChessApplication {
         return game;
     }
 
-    private static void showStatus(Game game) {
+    private static Game showStatus(Game game) {
         outputView.printStatus(game.decideWinStatus());
+        return game;
     }
 
     private static Game end(Game game) {
