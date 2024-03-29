@@ -45,4 +45,13 @@ public class Pawn extends Piece {
     public double score() {
         return 1.0;
     }
+
+    @Override
+    public String text() {
+        String text = "P";
+        if (color() == WHITE) {
+            text = text.toLowerCase();
+        }
+        return text;
+    }
 }

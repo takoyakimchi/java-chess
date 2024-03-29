@@ -35,4 +35,13 @@ public class Rook extends SlidingPiece {
     public double score() {
         return 5.0;
     }
+
+    @Override
+    public String text() {
+        String text = "R";
+        if (color() == WHITE) {
+            text = text.toLowerCase();
+        }
+        return text;
+    }
 }

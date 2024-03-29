@@ -35,4 +35,13 @@ public class Bishop extends SlidingPiece {
     public double score() {
         return 3.0;
     }
+
+    @Override
+    public String text() {
+        String text = "B";
+        if (color() == WHITE) {
+            text = text.toLowerCase();
+        }
+        return text;
+    }
 }

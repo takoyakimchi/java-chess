@@ -44,4 +44,13 @@ public class Knight extends Piece {
     public double score() {
         return 2.5;
     }
+
+    @Override
+    public String text() {
+        String text = "N";
+        if (color() == WHITE) {
+            text = text.toLowerCase();
+        }
+        return text;
+    }
 }

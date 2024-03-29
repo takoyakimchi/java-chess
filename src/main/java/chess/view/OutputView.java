@@ -5,14 +5,7 @@ import static chess.domain.game.WinStatus.WHITE_WIN;
 
 import chess.domain.board.Board;
 import chess.domain.game.WinStatus;
-import chess.domain.piece.King;
-import chess.domain.piece.Knight;
-import chess.domain.piece.NoPiece;
-import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
-import chess.domain.piece.slidingpiece.Bishop;
-import chess.domain.piece.slidingpiece.Queen;
-import chess.domain.piece.slidingpiece.Rook;
 import chess.domain.position.Position;
 
 public class OutputView {
@@ -43,39 +36,9 @@ public class OutputView {
     private void printOneRank(Board board, int rank) {
         for (int file = 1; file <= 8; file++) {
             Piece piece = board.findPieceAt(Position.of(file, rank));
-            System.out.print(pieceToString(piece));
+            System.out.print(piece.text());
         }
         System.out.println();
-    }
-
-    private String pieceToString(Piece piece) {
-        String pieceText = "";
-        if (piece instanceof Bishop) {
-            pieceText = "B";
-        }
-        if (piece instanceof King) {
-            pieceText = "K";
-        }
-        if (piece instanceof Knight) {
-            pieceText = "N";
-        }
-        if (piece instanceof Pawn) {
-            pieceText = "P";
-        }
-        if (piece instanceof Queen) {
-            pieceText = "Q";
-        }
-        if (piece instanceof Rook) {
-            pieceText = "R";
-        }
-        if (piece instanceof NoPiece) {
-            pieceText = ".";
-        }
-
-        if (piece.isWhite()) {
-            return pieceText.toLowerCase();
-        }
-        return pieceText;
     }
 
     public void printStatus(WinStatusDto winStatusDto) {

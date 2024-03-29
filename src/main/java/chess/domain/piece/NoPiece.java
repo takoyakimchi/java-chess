@@ -31,4 +31,9 @@ public class NoPiece extends Piece {
     public double score() {
         return 0.0;
     }
+
+    @Override
+    public String text() {
+        return ".";
+    }
 }

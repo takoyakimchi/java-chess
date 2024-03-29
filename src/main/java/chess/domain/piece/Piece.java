@@ -16,6 +16,8 @@ public abstract class Piece {
 
     public abstract double score();
 
+    public abstract String text();
+
     public boolean isEmpty() {
         return this.equals(NoPiece.getInstance());
     }

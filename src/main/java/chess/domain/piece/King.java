@@ -44,4 +44,13 @@ public class King extends Piece {
     public double score() {
         return 0.0;
     }
+
+    @Override
+    public String text() {
+        String text = "K";
+        if (color() == WHITE) {
+            text = text.toLowerCase();
+        }
+        return text;
+    }
 }
