@@ -1,5 +1,7 @@
 package chess.application;
 
+import chess.db.ChessDao;
+import chess.db.GameRepository;
 import chess.domain.board.Board;
 import chess.domain.board.InitialBoardGenerator;
 import chess.domain.game.Game;
@@ -14,6 +16,7 @@ public class ChessApplication {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
+    private static final GameRepository gameRepository = GameRepository.from(new ChessDao());
 
     public static void main(String[] args) {
         outputView.printStartMessage();
@@ -51,15 +54,17 @@ public class ChessApplication {
     }
 
     private static Game start(Game game) {
-        game.start();
+        game = game.start();
+        game = gameRepository.loadGame(); // TODO: 조건문 추가 --> 저장된 게임이 있을 때만 로드하자
         outputView.printBoard(game.getBoard());
-        return game.start();
+        return game;
     }
 
     private static Game move(Game game, Command command) {
         Position source = inputView.resolvePosition(command.argumentOf(0));
         Position target = inputView.resolvePosition(command.argumentOf(1));
         game = game.move(source, target);
+        gameRepository.saveGame(game.getBoard(), game.currentTurn());
         outputView.printBoard(game.getBoard());
         return game;
     }

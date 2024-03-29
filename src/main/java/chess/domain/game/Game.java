@@ -4,8 +4,11 @@ import static chess.domain.piece.Color.BLACK;
 import static chess.domain.piece.Color.WHITE;
 
 import chess.domain.board.Board;
+import chess.domain.game.state.BlackTurnState;
 import chess.domain.game.state.GameState;
 import chess.domain.game.state.ReadyState;
+import chess.domain.game.state.WhiteTurnState;
+import chess.domain.piece.Color;
 import chess.domain.position.Position;
 import chess.view.WinStatusDto;
 
@@ -21,6 +24,13 @@ public class Game {
 
     public static Game from(Board board) {
         return new Game(board, new ReadyState());
+    }
+
+    public static Game withTurn(Board board, Color currentTurn) {
+        if (currentTurn == WHITE) {
+            return new Game(board, new WhiteTurnState());
+        }
+        return new Game(board, new BlackTurnState());
     }
 
     public Game start() {
@@ -52,6 +62,10 @@ public class Game {
 
     public boolean isRunning() {
         return !gameState.isEnd();
+    }
+
+    public Color currentTurn() {
+        return gameState.currentTurn();
     }
 
     public Board getBoard() {
