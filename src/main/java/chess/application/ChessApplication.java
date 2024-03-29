@@ -41,7 +41,7 @@ public class ChessApplication {
             game = move(game, command);
         }
         if (command.type() == CommandType.STATUS) {
-            outputView.printStatus(game.decideWinStatus());
+            showStatus(game);
         }
         if (command.type() == CommandType.END) {
             game = end(game);
@@ -61,6 +61,10 @@ public class ChessApplication {
         game = game.move(source, target);
         outputView.printBoard(game.getBoard());
         return game;
+    }
+
+    private static void showStatus(Game game) {
+        outputView.printStatus(game.decideWinStatus());
     }
 
     private static Game end(Game game) {
