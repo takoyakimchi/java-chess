@@ -92,4 +92,8 @@ public class OutputView {
         }
         return "무승부";
     }
+
+    public void printEndMessage() {
+        System.out.println("게임이 종료되었습니다.");
+    }
 }

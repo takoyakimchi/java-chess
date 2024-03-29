@@ -22,6 +22,8 @@ public class ChessApplication {
         while (game.isRunning()) {
             game = play(game);
         }
+        outputView.printEndMessage();
+        outputView.printStatus(game.decideWinStatus());
     }
 
     private static Game play(Game game) {
