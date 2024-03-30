@@ -57,7 +57,7 @@ public class GameRepository {
     }
 
     private void addInitialRecord() {
-        String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?);";
+        String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, serializeBoard(Board.generatedBy(new InitialBoardGenerator())));
@@ -70,7 +70,6 @@ public class GameRepository {
 
     public void saveGame(Board board, Color currentTurn) {
         String query = "UPDATE board SET board_text=?, turn_text=? ORDER BY game_id DESC LIMIT 1";
-//        String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?);";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, serializeBoard(board));
@@ -95,19 +94,6 @@ public class GameRepository {
             throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
         }
         return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
-    }
-
-    public void resetGame() {
-        Board board = Board.generatedBy(new InitialBoardGenerator());
-        String query = "UPDATE board SET board_text=?, turn_text=? ORDER BY game_id DESC LIMIT 1";
-        try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, serializeBoard(board));
-            statement.setString(2, serializeColor(WHITE));
-            statement.executeUpdate();
-        } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
-        }
     }
 
     public String serializeBoard(Board board) {

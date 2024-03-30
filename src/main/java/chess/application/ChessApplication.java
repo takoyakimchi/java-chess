@@ -5,6 +5,7 @@ import chess.db.GameRepository;
 import chess.domain.board.Board;
 import chess.domain.board.InitialBoardGenerator;
 import chess.domain.game.Game;
+import chess.domain.piece.Color;
 import chess.domain.position.Position;
 import chess.view.Command;
 import chess.view.CommandType;
@@ -70,7 +71,7 @@ public class ChessApplication {
             gameRepository.saveGame(game.getBoard(), game.currentTurn());
         }
         if (game.isEnd()) {
-            gameRepository.resetGame();
+            gameRepository.saveGame(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
         }
         outputView.printBoard(game.getBoard());
         return game;

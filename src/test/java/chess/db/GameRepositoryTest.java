@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.domain.board.Board;
-import chess.domain.board.DeserializingBoardGenerator;
 import chess.domain.board.InitialBoardGenerator;
 import chess.domain.game.Game;
 import chess.domain.position.Position;
@@ -71,19 +70,6 @@ class GameRepositoryTest {
             () -> assertThatThrownBy(() -> loadGame.move(Position.of(1, 7), Position.of(1, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
         );
-    }
-
-    @Test
-    @DisplayName("게임을 초기 상태로 되돌릴 수 있다")
-    void resetGame() {
-        Board emptyBoard = Board.generatedBy(new DeserializingBoardGenerator(
-            "................................................................"));
-        repository.saveGame(emptyBoard, WHITE);
-
-        repository.resetGame();
-        Game newGame = repository.loadGame();
-
-        assertThat(newGame.getBoard()).isEqualTo(Board.generatedBy(new InitialBoardGenerator()));
     }
 
     @Test
