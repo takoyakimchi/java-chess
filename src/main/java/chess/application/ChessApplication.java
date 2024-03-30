@@ -56,7 +56,7 @@ public class ChessApplication {
 
     private static Game start(Game game) {
         game.start();
-        gameRepository.createGameIfNotExists();
+        gameRepository.initialize();
         game = gameRepository.loadGame();
         outputView.printBoard(game.getBoard());
         return game;

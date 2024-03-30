@@ -23,12 +23,19 @@ public class GameRepository {
         this.connection = connection;
     }
 
-    public void createGameIfNotExists() {
+    public void initialize() {
+        createTableIfNotExists();
+        if (countRecords() == 0) {
+            addInitialRecord();
+        }
+    }
+
+    private void createTableIfNotExists() {
         String query = "CREATE TABLE IF NOT EXISTS board("
             + "game_id INT NOT NULL AUTO_INCREMENT,"
             + "board_text VARCHAR(255) NOT NULL,"
             + "turn_text VARCHAR(255) NOT NULL,"
-            + "PRIMARY KEY (game_id));";
+            + "PRIMARY KEY (game_id))";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
@@ -37,8 +44,33 @@ public class GameRepository {
         }
     }
 
-    public void saveGame(Board board, Color currentTurn) {
+    private int countRecords() {
+        String query = "SELECT COUNT(*) FROM board";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException exception) {
+            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+        }
+    }
+
+    private void addInitialRecord() {
         String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?);";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, serializeBoard(Board.generatedBy(new InitialBoardGenerator())));
+            statement.setString(2, serializeColor(WHITE));
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+        }
+    }
+
+    public void saveGame(Board board, Color currentTurn) {
+        String query = "UPDATE board SET board_text=?, turn_text=? ORDER BY game_id DESC LIMIT 1";
+//        String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?);";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, serializeBoard(board));

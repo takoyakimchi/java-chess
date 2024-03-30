@@ -28,7 +28,7 @@ class GameRepositoryTest {
     @BeforeEach
     void beforeEach() throws SQLException {
         connection.setAutoCommit(false);
-        repository.createGameIfNotExists();
+        repository.initialize();
     }
 
     @AfterEach
@@ -37,18 +37,21 @@ class GameRepositoryTest {
     }
 
     @Test
-    @DisplayName("테이블이 없으면 생성할 수 있다.")
-    void createGameIfNotExists() throws SQLException {
+    @DisplayName("테이블이 없으면 생성하고 초기 체스판 상태를 저장한다.")
+    void initialize() throws SQLException {
         PreparedStatement dropTable = connection.prepareStatement("DROP TABLE IF EXISTS board");
         dropTable.executeUpdate();
 
-        repository.createGameIfNotExists();
+        repository.initialize();
 
         PreparedStatement select = connection.prepareStatement(
             "SELECT COUNT(*) FROM information_schema.TABLES WHERE table_name='board' LIMIT 1");
         ResultSet resultSet = select.executeQuery();
         resultSet.next();
         assertThat(resultSet.getInt(1)).isEqualTo(1);
+
+        Game game = repository.loadGame();
+        assertThat(game.getBoard()).isEqualTo(Board.generatedBy(new InitialBoardGenerator()));
     }
 
     @Test
