@@ -5,6 +5,7 @@ import static chess.domain.piece.Color.WHITE;
 
 import chess.domain.board.Board;
 import chess.domain.board.DeserializingBoardGenerator;
+import chess.domain.board.InitialBoardGenerator;
 import chess.domain.game.Game;
 import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
@@ -26,6 +27,19 @@ public class GameRepository {
         return new GameRepository(chessDao.getConnection());
     }
 
+    public void createGameIfNotExists() {
+        String query = "CREATE TABLE IF NOT EXISTS board("
+            + "game_id INT NOT NULL AUTO_INCREMENT,"
+            + "board_text VARCHAR(255) NOT NULL,"
+            + "turn_text VARCHAR(255) NOT NULL,"
+            + "PRIMARY KEY (game_id));";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+        }
+    }
 
     public void saveGame(Board board, Color currentTurn) {
         String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?);";
@@ -52,7 +66,7 @@ public class GameRepository {
         } catch (SQLException exception) {
             throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
         }
-        throw new UnsupportedOperationException("게임을 불러올 수 없습니다.");
+        return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
     }
 
     public String serializeBoard(Board board) {

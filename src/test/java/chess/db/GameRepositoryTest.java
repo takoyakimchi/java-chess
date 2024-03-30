@@ -51,4 +51,10 @@ class GameRepositoryTest {
                 .isInstanceOf(IllegalArgumentException.class)
         );
     }
+
+    @Test
+    @DisplayName("테이블이 없으면 새로 생성할 수 있다.")
+    void createGameIfNotExists() {
+
+    }
 }

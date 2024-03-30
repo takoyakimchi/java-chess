@@ -54,8 +54,9 @@ public class ChessApplication {
     }
 
     private static Game start(Game game) {
-        game = game.start();
-        game = gameRepository.loadGame(); // TODO: 조건문 추가 --> 저장된 게임이 있을 때만 로드하자
+        game.start();
+        gameRepository.createGameIfNotExists();
+        game = gameRepository.loadGame();
         outputView.printBoard(game.getBoard());
         return game;
     }
