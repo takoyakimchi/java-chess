@@ -31,6 +31,8 @@ public class OutputView {
             printOneRank(board, rank);
         }
         System.out.println();
+        System.out.println("abcdefgh");
+        System.out.println();
     }
 
     private void printOneRank(Board board, int rank) {
@@ -38,7 +40,7 @@ public class OutputView {
             Piece piece = board.findPieceAt(Position.of(file, rank));
             System.out.print(piece.text());
         }
-        System.out.println();
+        System.out.printf("  %d%n", rank);
     }
 
     public void printStatus(WinStatusDto winStatusDto) {
