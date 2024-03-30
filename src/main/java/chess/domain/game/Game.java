@@ -64,6 +64,10 @@ public class Game {
         return !gameState.isEnd();
     }
 
+    public boolean isEnd() {
+        return gameState.isEnd();
+    }
+
     public Color currentTurn() {
         return gameState.currentTurn();
     }

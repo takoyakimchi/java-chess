@@ -16,7 +16,8 @@ public class ChessApplication {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final GameRepository gameRepository = GameRepository.from(new ChessDao());
+    private static final ChessDao chessDao = new ChessDao();
+    private static final GameRepository gameRepository = new GameRepository(chessDao.getConnection());
 
     public static void main(String[] args) {
         outputView.printStartMessage();
@@ -34,7 +35,7 @@ public class ChessApplication {
             Command command = inputView.readCommand();
             return executeCommand(game, command);
         } catch (UnsupportedOperationException | IllegalArgumentException exception) {
-            outputView.printMessage(exception.getMessage());
+            outputView.printMessage("[ERROR] " + exception.getMessage());
             return play(game);
         }
     }
@@ -65,7 +66,12 @@ public class ChessApplication {
         Position source = inputView.resolvePosition(command.argumentOf(0));
         Position target = inputView.resolvePosition(command.argumentOf(1));
         game = game.move(source, target);
-        gameRepository.saveGame(game.getBoard(), game.currentTurn());
+        if (game.isRunning()) {
+            gameRepository.saveGame(game.getBoard(), game.currentTurn());
+        }
+        if (game.isEnd()) {
+            gameRepository.resetGame();
+        }
         outputView.printBoard(game.getBoard());
         return game;
     }

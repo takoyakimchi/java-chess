@@ -19,12 +19,8 @@ public class GameRepository {
 
     private final Connection connection;
 
-    private GameRepository(Connection connection) {
+    public GameRepository(Connection connection) {
         this.connection = connection;
-    }
-
-    public static GameRepository from(ChessDao chessDao) {
-        return new GameRepository(chessDao.getConnection());
     }
 
     public void createGameIfNotExists() {
@@ -67,6 +63,19 @@ public class GameRepository {
             throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
         }
         return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
+    }
+
+    public void resetGame() {
+        Board board = Board.generatedBy(new InitialBoardGenerator());
+        String query = "UPDATE board SET board_text=?, turn_text=? ORDER BY game_id DESC LIMIT 1";
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, serializeBoard(board));
+            statement.setString(2, serializeColor(WHITE));
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+        }
     }
 
     public String serializeBoard(Board board) {
