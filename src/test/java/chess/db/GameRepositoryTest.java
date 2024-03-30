@@ -13,6 +13,7 @@ import chess.domain.game.Game;
 import chess.domain.position.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,15 +39,16 @@ class GameRepositoryTest {
     @Test
     @DisplayName("테이블이 없으면 생성할 수 있다.")
     void createGameIfNotExists() throws SQLException {
-        PreparedStatement dropTable = connection.prepareStatement("DROP TABLE IF EXISTS board;");
+        PreparedStatement dropTable = connection.prepareStatement("DROP TABLE IF EXISTS board");
         dropTable.executeUpdate();
 
         repository.createGameIfNotExists();
 
-        assertThatCode(() -> {
-            PreparedStatement select = connection.prepareStatement("SELECT * FROM board;");
-            select.execute();
-        }).doesNotThrowAnyException();
+        PreparedStatement select = connection.prepareStatement(
+            "SELECT COUNT(*) FROM information_schema.TABLES WHERE table_name='board' LIMIT 1");
+        ResultSet resultSet = select.executeQuery();
+        resultSet.next();
+        assertThat(resultSet.getInt(1)).isEqualTo(1);
     }
 
     @Test
