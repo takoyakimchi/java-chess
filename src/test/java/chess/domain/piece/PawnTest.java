@@ -49,7 +49,6 @@ class PawnTest {
         assertThat(pawn.canMove(source, target, BOARD_MAP)).isTrue();
     }
 
-
     @Test
     @DisplayName("폰 이동 가능 - 대각선으로 잡기")
     void canMove_Pawn_Capture() {
