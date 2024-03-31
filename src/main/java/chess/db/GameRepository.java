@@ -100,10 +100,16 @@ public class GameRepository {
     private String serializeBoard(Board board) {
         StringBuilder builder = new StringBuilder();
         for (int rank = 1; rank <= 8; rank++) {
-            for (int file = 1; file <= 8; file++) {
-                Piece piece = board.findPieceAt(Position.of(file, rank));
-                builder.append(pieceSerializer.textOf(piece));
-            }
+            builder.append(serializeRank(board, rank));
+        }
+        return builder.toString();
+    }
+
+    private String serializeRank(Board board, int rank) {
+        StringBuilder builder = new StringBuilder();
+        for (int file = 1; file <= 8; file++) {
+            Piece piece = board.findPieceAt(Position.of(file, rank));
+            builder.append(pieceSerializer.textOf(piece));
         }
         return builder.toString();
     }
