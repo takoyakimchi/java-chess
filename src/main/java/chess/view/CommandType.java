@@ -12,6 +12,8 @@ public enum CommandType {
     ;
 
     public static final String DELIMITER = " ";
+    private static final String ERROR_MESSAGE_ILLEGAL_COMMAND_INPUT = "올바르지 않은 명령어 입력입니다.";
+
     private final String prefix;
     private final int argumentAmount;
 
@@ -22,11 +24,14 @@ public enum CommandType {
 
     public static CommandType from(String input) {
         List<String> commands = Arrays.stream(input.split(DELIMITER)).toList();
+        if (commands.isEmpty()) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_ILLEGAL_COMMAND_INPUT);
+        }
         String prefix = commands.get(0);
         return Arrays.stream(values())
             .filter(value -> value.prefix.equals(prefix))
             .filter(value -> value.argumentAmount == commands.size())
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("올바르지 않은 명령어 입력입니다."));
+            .orElseThrow(() -> new IllegalArgumentException(ERROR_MESSAGE_ILLEGAL_COMMAND_INPUT));
     }
 }
