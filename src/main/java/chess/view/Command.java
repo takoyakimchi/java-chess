@@ -26,6 +26,10 @@ public class Command {
     }
 
     public String argumentOf(int index) {
-        return arguments.get(index);
+        try {
+            return arguments.get(index);
+        } catch (IndexOutOfBoundsException exception) {
+            throw new IllegalArgumentException("해당 index에 명령어 인자가 존재하지 않습니다.");
+        }
     }
 }
