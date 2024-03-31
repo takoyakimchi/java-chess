@@ -1,5 +1,6 @@
 package chess.db;
 
+import static chess.domain.piece.Color.BLACK;
 import static chess.domain.piece.Color.WHITE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
@@ -7,8 +8,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import chess.domain.board.Board;
-import chess.domain.board.InitialBoardGenerator;
+import chess.domain.board.DeserializingBoardGenerator;
 import chess.domain.game.Game;
+import chess.domain.piece.King;
+import chess.domain.piece.Pawn;
 import chess.domain.position.Position;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,27 +51,42 @@ class GameRepositoryTest {
         ResultSet resultSet = select.executeQuery();
         resultSet.next();
         assertThat(resultSet.getInt(1)).isEqualTo(1);
-
-        Game game = repository.loadGame();
-        assertThat(game.getBoard()).isEqualTo(Board.generatedBy(new InitialBoardGenerator()));
     }
 
     @Test
     @DisplayName("보드 및 턴 정보를 저장하고 그대로 읽을 수 있다.")
-    void saveGame_loadGame() {
-        Board board = Board.generatedBy(new InitialBoardGenerator());
+    void saveAndLoadGame() {
+        /*
+        ......PK 8
+        ........ 7
+        ........ 6
+        ........ 5
+        ........ 4
+        ........ 3
+        ........ 2
+        pk...... 1
+        abcdefgh
+        */
+        Board board = Board.generatedBy(new DeserializingBoardGenerator(
+            "pk............................................................PK"));
         Game game = Game.from(board);
         game = game.started();
 
         repository.saveGame(game.getBoard(), WHITE);
         Game loadGame = repository.loadGame();
+        Board loadBoard = loadGame.getBoard();
 
         assertAll(
-            () -> assertThat(loadGame.getBoard()).isEqualTo(board),
-            () -> assertThatCode(() -> loadGame.moved(Position.of(1, 2), Position.of(1, 4)))
+            () -> assertThat(loadBoard.findPieceAt(Position.of(1, 1))).isEqualTo(Pawn.withColor(WHITE)),
+            () -> assertThat(loadBoard.findPieceAt(Position.of(2, 1))).isEqualTo(King.withColor(WHITE)),
+            () -> assertThat(loadBoard.findPieceAt(Position.of(7, 8))).isEqualTo(Pawn.withColor(BLACK)),
+            () -> assertThat(loadBoard.findPieceAt(Position.of(8, 8))).isEqualTo(King.withColor(BLACK)),
+            () -> assertThatCode(() -> loadGame.moved(Position.of(2, 1), Position.of(2, 2)))
                 .doesNotThrowAnyException(),
-            () -> assertThatThrownBy(() -> loadGame.moved(Position.of(1, 7), Position.of(1, 5)))
+            () -> assertThatThrownBy(() -> loadGame.moved(Position.of(7, 8), Position.of(7, 7)))
                 .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("WHITE이 움직일 차례입니다.")
         );
+
     }
 }
