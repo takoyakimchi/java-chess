@@ -86,15 +86,13 @@ public class GameRepository {
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String boardText = resultSet.getString("board_text");
-                String turnText = resultSet.getString("turn_text");
-                return Game.withTurn(deserializeBoard(boardText), deserializeColor(turnText));
-            }
+            resultSet.next();
+            String boardText = resultSet.getString("board_text");
+            String turnText = resultSet.getString("turn_text");
+            return Game.withTurn(deserializeBoard(boardText), deserializeColor(turnText));
         } catch (SQLException exception) {
             throw new IllegalStateException("저장된 게임을 불러올 수 없습니다.");
         }
-        return Game.from(Board.generatedBy(new InitialBoardGenerator())).started();
     }
 
     private String serializeBoard(Board board) {
