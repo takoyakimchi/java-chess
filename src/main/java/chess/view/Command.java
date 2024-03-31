@@ -6,7 +6,8 @@ import java.util.List;
 
 public class Command {
 
-    public static final String DELIMITER = " ";
+    private static final String DELIMITER = " ";
+
     private final CommandType type;
     private final List<String> arguments;
 

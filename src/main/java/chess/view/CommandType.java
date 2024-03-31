@@ -11,7 +11,7 @@ public enum CommandType {
     STATUS("status", 1),
     ;
 
-    public static final String DELIMITER = " ";
+    private static final String DELIMITER = " ";
     private static final String ERROR_MESSAGE_ILLEGAL_COMMAND_INPUT = "올바르지 않은 명령어 입력입니다.";
 
     private final String prefix;
