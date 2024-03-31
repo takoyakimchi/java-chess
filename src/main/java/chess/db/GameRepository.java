@@ -16,6 +16,9 @@ import java.sql.SQLException;
 
 public class GameRepository {
 
+    private static final int MINIMUM_BOARD_INDEX = 1;
+    private static final int MAXIMUM_BOARD_INDEX = 8;
+
     private final Connection connection;
     private final PieceSerializer pieceSerializer;
 
@@ -99,7 +102,7 @@ public class GameRepository {
 
     private String serializeBoard(Board board) {
         StringBuilder builder = new StringBuilder();
-        for (int rank = 1; rank <= 8; rank++) {
+        for (int rank = MINIMUM_BOARD_INDEX; rank <= MAXIMUM_BOARD_INDEX; rank++) {
             builder.append(serializeRank(board, rank));
         }
         return builder.toString();
@@ -107,7 +110,7 @@ public class GameRepository {
 
     private String serializeRank(Board board, int rank) {
         StringBuilder builder = new StringBuilder();
-        for (int file = 1; file <= 8; file++) {
+        for (int file = MINIMUM_BOARD_INDEX; file <= MAXIMUM_BOARD_INDEX; file++) {
             Piece piece = board.findPieceAt(Position.of(file, rank));
             builder.append(pieceSerializer.textOf(piece));
         }
