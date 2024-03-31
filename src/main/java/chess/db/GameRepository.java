@@ -31,11 +31,13 @@ public class GameRepository {
     }
 
     private void createTableIfNotExists() {
-        String query = "CREATE TABLE IF NOT EXISTS board("
-            + "game_id INT NOT NULL AUTO_INCREMENT,"
-            + "board_text VARCHAR(255) NOT NULL,"
-            + "turn_text VARCHAR(255) NOT NULL,"
-            + "PRIMARY KEY (game_id))";
+        String query = """
+                CREATE TABLE IF NOT EXISTS board(
+                game_id INT NOT NULL AUTO_INCREMENT,
+                board_text VARCHAR(255) NOT NULL,
+                turn_text VARCHAR(255) NOT NULL,
+                PRIMARY KEY (game_id));
+            """;
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
