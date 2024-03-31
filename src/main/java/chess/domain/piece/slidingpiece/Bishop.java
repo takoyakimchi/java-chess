@@ -12,6 +12,8 @@ import java.util.Set;
 
 public class Bishop extends SlidingPiece {
 
+    private static final double BISHOP_SCORE = 3.0;
+
     private static final Bishop WHITE_BISHOP = new Bishop(WHITE);
     private static final Bishop BLACK_BISHOP = new Bishop(BLACK);
 
@@ -33,7 +35,7 @@ public class Bishop extends SlidingPiece {
 
     @Override
     public double score() {
-        return 3.0;
+        return BISHOP_SCORE;
     }
 
     @Override

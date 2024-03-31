@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class King extends Piece {
 
+    private static final double KING_SCORE = 0.0;
+
     private static final King WHITE_KING = new King(WHITE);
     private static final King BLACK_KING = new King(BLACK);
 
@@ -42,7 +44,7 @@ public class King extends Piece {
 
     @Override
     public double score() {
-        return 0.0;
+        return KING_SCORE;
     }
 
     @Override

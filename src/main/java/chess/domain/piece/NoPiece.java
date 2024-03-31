@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class NoPiece extends Piece {
 
+    private static final double NO_SCORE = 0.0;
+
     private static final NoPiece INSTANCE = new NoPiece();
 
     private NoPiece() {
@@ -29,7 +31,7 @@ public class NoPiece extends Piece {
 
     @Override
     public double score() {
-        return 0.0;
+        return NO_SCORE;
     }
 
     @Override

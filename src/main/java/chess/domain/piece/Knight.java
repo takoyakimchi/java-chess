@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Knight extends Piece {
 
+    private static final double KNIGHT_SCORE = 2.5;
+
     private static final Knight WHITE_KNIGHT = new Knight(WHITE);
     private static final Knight BLACK_KNIGHT = new Knight(BLACK);
 
@@ -42,7 +44,7 @@ public class Knight extends Piece {
 
     @Override
     public double score() {
-        return 2.5;
+        return KNIGHT_SCORE;
     }
 
     @Override

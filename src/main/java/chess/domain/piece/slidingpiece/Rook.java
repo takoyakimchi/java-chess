@@ -12,6 +12,8 @@ import java.util.Set;
 
 public class Rook extends SlidingPiece {
 
+    private static final double ROOK_SCORE = 5.0;
+
     private static final Rook WHITE_ROOK = new Rook(WHITE);
     private static final Rook BLACK_ROOK = new Rook(BLACK);
 
@@ -33,7 +35,7 @@ public class Rook extends SlidingPiece {
 
     @Override
     public double score() {
-        return 5.0;
+        return ROOK_SCORE;
     }
 
     @Override

@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Pawn extends Piece {
 
+    private static final double PAWN_SCORE_WITHOUT_PENALTY = 1.0;
+
     private static final Pawn WHITE_PAWN = new Pawn(WHITE);
     private static final Pawn BLACK_PAWN = new Pawn(BLACK);
 
@@ -43,7 +45,7 @@ public class Pawn extends Piece {
 
     @Override
     public double score() {
-        return 1.0;
+        return PAWN_SCORE_WITHOUT_PENALTY;
     }
 
     @Override

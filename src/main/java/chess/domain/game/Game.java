@@ -14,6 +14,8 @@ import chess.view.WinStatusDto;
 
 public class Game {
 
+    private static final int INITIAL_KING_COUNT = 2;
+
     private final Board board;
     private final GameState gameState;
 
@@ -47,7 +49,7 @@ public class Game {
     }
 
     private boolean isKingCaptured() {
-        return board.kingCount() < 2;
+        return board.kingCount() < INITIAL_KING_COUNT;
     }
 
     public Game end() {

@@ -12,8 +12,12 @@ import java.util.stream.IntStream;
 
 public class Board {
 
+    private static final int MINIMUM_BOARD_INDEX = 1;
+    private static final int MAXIMUM_BOARD_INDEX = 8;
+
     private static final double LOSE_SCORE = 0.0;
     private static final double PAWN_PENALTY_SCORE = 0.5;
+    private static final int MINIMUM_PENALIZING_PAWN_AMOUNT = 2;
 
     private final Map<Position, Piece> board;
 
@@ -84,15 +88,15 @@ public class Board {
     }
 
     private double penaltyScore(Color color) {
-        long penalizedPawnAmount = IntStream.rangeClosed(1, 8)
+        long penalizedPawnAmount = IntStream.rangeClosed(MINIMUM_BOARD_INDEX, MAXIMUM_BOARD_INDEX)
             .mapToLong(file -> pawnAmountOnFile(file, color))
-            .filter(number -> number >= 2)
+            .filter(number -> number >= MINIMUM_PENALIZING_PAWN_AMOUNT)
             .sum();
         return PAWN_PENALTY_SCORE * penalizedPawnAmount;
     }
 
     private long pawnAmountOnFile(int file, Color color) {
-        return IntStream.rangeClosed(1, 8)
+        return IntStream.rangeClosed(MINIMUM_BOARD_INDEX, MAXIMUM_BOARD_INDEX)
             .filter(rank -> findPieceAt(Position.of(file, rank)).equals(Pawn.withColor(color)))
             .count();
     }

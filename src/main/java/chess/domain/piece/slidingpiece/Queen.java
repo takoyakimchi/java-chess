@@ -16,6 +16,8 @@ import java.util.Set;
 
 public class Queen extends SlidingPiece {
 
+    private static final double QUEEN_SCORE = 9.0;
+
     private static final Queen WHITE_QUEEN = new Queen(WHITE);
     private static final Queen BLACK_QUEEN = new Queen(BLACK);
 
@@ -37,7 +39,7 @@ public class Queen extends SlidingPiece {
 
     @Override
     public double score() {
-        return 9.0;
+        return QUEEN_SCORE;
     }
 
     @Override
