@@ -56,7 +56,7 @@ public class ChessApplication {
     }
 
     private static Game start(Game game) {
-        game.start();
+        game.started();
         gameRepository.initialize();
         game = gameRepository.loadGame();
         outputView.printBoard(game.getBoard());
@@ -66,7 +66,7 @@ public class ChessApplication {
     private static Game move(Game game, Command command) {
         Position source = inputView.resolvePosition(command.argumentOf(0));
         Position target = inputView.resolvePosition(command.argumentOf(1));
-        game = game.move(source, target);
+        game = game.moved(source, target);
         if (game.isRunning()) {
             gameRepository.saveGame(game.getBoard(), game.currentTurn());
         }
@@ -83,6 +83,6 @@ public class ChessApplication {
     }
 
     private static Game end(Game game) {
-        return game.end();
+        return game.ended();
     }
 }

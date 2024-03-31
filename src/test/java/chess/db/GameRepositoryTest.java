@@ -58,16 +58,16 @@ class GameRepositoryTest {
     void saveGame_loadGame() {
         Board board = Board.generatedBy(new InitialBoardGenerator());
         Game game = Game.from(board);
-        game = game.start();
+        game = game.started();
 
         repository.saveGame(game.getBoard(), WHITE);
         Game loadGame = repository.loadGame();
 
         assertAll(
             () -> assertThat(loadGame.getBoard()).isEqualTo(board),
-            () -> assertThatCode(() -> loadGame.move(Position.of(1, 2), Position.of(1, 4)))
+            () -> assertThatCode(() -> loadGame.moved(Position.of(1, 2), Position.of(1, 4)))
                 .doesNotThrowAnyException(),
-            () -> assertThatThrownBy(() -> loadGame.move(Position.of(1, 7), Position.of(1, 5)))
+            () -> assertThatThrownBy(() -> loadGame.moved(Position.of(1, 7), Position.of(1, 5)))
                 .isInstanceOf(IllegalArgumentException.class)
         );
     }

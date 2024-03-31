@@ -35,11 +35,11 @@ public class Game {
         return new Game(board, new BlackTurnState());
     }
 
-    public Game start() {
+    public Game started() {
         return new Game(board, gameState.start());
     }
 
-    public Game move(Position source, Position target) {
+    public Game moved(Position source, Position target) {
         board.move(source, target, gameState.currentTurn());
         GameState nextState = gameState.move();
         if (isKingCaptured()) {
@@ -52,7 +52,7 @@ public class Game {
         return board.kingCount() < INITIAL_KING_COUNT;
     }
 
-    public Game end() {
+    public Game ended() {
         return new Game(board, gameState.end());
     }
 

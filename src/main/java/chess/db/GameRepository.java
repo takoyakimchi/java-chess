@@ -94,7 +94,7 @@ public class GameRepository {
         } catch (SQLException exception) {
             throw new IllegalStateException("저장된 게임을 불러올 수 없습니다.");
         }
-        return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
+        return Game.from(Board.generatedBy(new InitialBoardGenerator())).started();
     }
 
     private String serializeBoard(Board board) {
