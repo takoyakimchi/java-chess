@@ -35,8 +35,8 @@ public class ChessApplication {
         try {
             Command command = inputView.readCommand();
             return executeCommand(game, command);
-        } catch (UnsupportedOperationException | IllegalArgumentException exception) {
-            outputView.printMessage("[ERROR] " + exception.getMessage());
+        } catch (UnsupportedOperationException | IllegalArgumentException | IllegalStateException exception) {
+            outputView.printErrorMessage(exception.getMessage());
             return play(game);
         }
     }

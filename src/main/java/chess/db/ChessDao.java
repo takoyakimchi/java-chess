@@ -16,7 +16,7 @@ public class ChessDao {
         try {
             return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
-            throw new UnsupportedOperationException("서버 연결이 끊겼습니다.");
+            throw new IllegalStateException("서버 연결이 끊겼습니다.");
         }
     }
 }

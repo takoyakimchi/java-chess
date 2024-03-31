@@ -40,7 +40,7 @@ public class GameRepository {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+            throw new IllegalStateException("초기 테이블 생성에 실패하였습니다.");
         }
     }
 
@@ -52,7 +52,7 @@ public class GameRepository {
             resultSet.next();
             return resultSet.getInt(1);
         } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+            throw new IllegalStateException("게임 기록 존재 여부를 판단할 수 없습니다.");
         }
     }
 
@@ -64,7 +64,7 @@ public class GameRepository {
             statement.setString(2, serializeColor(WHITE));
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+            throw new IllegalStateException("초기 게임 기록 저장에 실패하였습니다.");
         }
     }
 
@@ -76,7 +76,7 @@ public class GameRepository {
             statement.setString(2, serializeColor(currentTurn));
             statement.executeUpdate();
         } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+            throw new IllegalStateException("게임 기록 저장에 실패하였습니다.");
         }
     }
 
@@ -91,7 +91,7 @@ public class GameRepository {
                 return Game.withTurn(deserializeBoard(boardText), deserializeColor(turnText));
             }
         } catch (SQLException exception) {
-            throw new UnsupportedOperationException("서버와의 연결이 끊겼습니다");
+            throw new IllegalStateException("저장된 게임을 불러올 수 없습니다.");
         }
         return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
     }
