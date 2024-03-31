@@ -1,8 +1,5 @@
 package chess.domain.board;
 
-import static chess.domain.piece.Color.BLACK;
-import static chess.domain.piece.Color.WHITE;
-
 import chess.domain.piece.Color;
 import chess.domain.piece.King;
 import chess.domain.piece.NoPiece;
@@ -42,7 +39,7 @@ public class Board {
     public long kingCount() {
         return board.values()
             .stream()
-            .filter(piece -> piece.equals(King.withColor(WHITE)) || piece.equals(King.withColor(BLACK)))
+            .filter(Piece::isKing)
             .count();
     }
 
