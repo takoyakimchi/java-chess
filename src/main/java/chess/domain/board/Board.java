@@ -7,7 +7,6 @@ import chess.domain.piece.Pawn;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class Board {
@@ -99,22 +98,5 @@ public class Board {
         return IntStream.rangeClosed(MINIMUM_BOARD_INDEX, MAXIMUM_BOARD_INDEX)
             .filter(rank -> findPieceAt(Position.of(file, rank)).equals(Pawn.withColor(color)))
             .count();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Board board1 = (Board) o;
-        return Objects.equals(board, board1.board);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(board);
     }
 }
