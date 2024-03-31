@@ -1,6 +1,5 @@
 package chess.db;
 
-import static chess.domain.piece.Color.BLACK;
 import static chess.domain.piece.Color.WHITE;
 
 import chess.domain.board.Board;
@@ -98,7 +97,7 @@ public class GameRepository {
         return Game.from(Board.generatedBy(new InitialBoardGenerator())).start();
     }
 
-    public String serializeBoard(Board board) {
+    private String serializeBoard(Board board) {
         StringBuilder builder = new StringBuilder();
         for (int rank = 1; rank <= 8; rank++) {
             for (int file = 1; file <= 8; file++) {
@@ -109,21 +108,15 @@ public class GameRepository {
         return builder.toString();
     }
 
-    public Board deserializeBoard(String boardText) {
+    private Board deserializeBoard(String boardText) {
         return Board.generatedBy(new DeserializingBoardGenerator(boardText));
     }
 
-    public String serializeColor(Color color) {
-        if (color == WHITE) {
-            return "WHITE";
-        }
-        return "BLACK";
+    private String serializeColor(Color color) {
+        return color.name();
     }
 
-    public Color deserializeColor(String colorText) {
-        if (colorText.equals("WHITE")) {
-            return WHITE;
-        }
-        return BLACK;
+    private Color deserializeColor(String colorText) {
+        return Color.valueOf(colorText);
     }
 }

@@ -71,20 +71,4 @@ class GameRepositoryTest {
                 .isInstanceOf(IllegalArgumentException.class)
         );
     }
-
-    @Test
-    @DisplayName("체스판을 문자열로 변환할 수 있다.")
-    void serializeBoard() {
-        String boardText = repository.serializeBoard(Board.generatedBy(new InitialBoardGenerator()));
-        assertThat(boardText).isEqualTo("rnbqkbnrpppppppp................................PPPPPPPPRNBQKBNR");
-    }
-
-    @Test
-    @DisplayName("문자열을 체스판으로 변환할 수 있다.")
-    void deserializeBoard() {
-        String boardText = "rnbqkbnrpppppppp................................PPPPPPPPRNBQKBNR";
-        Board board = repository.deserializeBoard(boardText);
-
-        assertThat(board).isEqualTo(Board.generatedBy(new InitialBoardGenerator()));
-    }
 }
