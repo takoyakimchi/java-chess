@@ -14,6 +14,12 @@ public class OutputView {
     private static final String END_COMMAND = "end";
     private static final String MOVE_COMMAND = "move";
 
+    private final PieceTextMapper pieceTextMapper;
+
+    public OutputView() {
+        this.pieceTextMapper = PieceTextMapper.initialize();
+    }
+
     public void printStartMessage() {
         System.out.println("> 체스 게임을 시작합니다.");
         System.out.printf("> 게임 시작 : %s%n", START_COMMAND);
@@ -33,7 +39,7 @@ public class OutputView {
     private void printOneRank(Board board, int rank) {
         for (int file = 1; file <= 8; file++) {
             Piece piece = board.findPieceAt(Position.of(file, rank));
-            System.out.print(piece.text());
+            System.out.print(pieceTextMapper.textOf(piece));
         }
         System.out.printf("  %d%n", rank);
     }

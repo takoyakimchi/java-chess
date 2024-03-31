@@ -42,12 +42,4 @@ public class Queen extends SlidingPiece {
         return QUEEN_SCORE;
     }
 
-    @Override
-    public String text() {
-        String text = "Q";
-        if (color() == WHITE) {
-            text = text.toLowerCase();
-        }
-        return text;
-    }
 }

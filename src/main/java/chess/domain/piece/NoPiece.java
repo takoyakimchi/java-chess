@@ -34,8 +34,4 @@ public class NoPiece extends Piece {
         return NO_SCORE;
     }
 
-    @Override
-    public String text() {
-        return ".";
-    }
 }

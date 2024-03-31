@@ -48,12 +48,4 @@ public class Pawn extends Piece {
         return PAWN_SCORE_WITHOUT_PENALTY;
     }
 
-    @Override
-    public String text() {
-        String text = "P";
-        if (color() == WHITE) {
-            text = text.toLowerCase();
-        }
-        return text;
-    }
 }

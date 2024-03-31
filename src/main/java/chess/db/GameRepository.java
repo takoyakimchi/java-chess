@@ -17,9 +17,11 @@ import java.sql.SQLException;
 public class GameRepository {
 
     private final Connection connection;
+    private final PieceSerializer pieceSerializer;
 
     public GameRepository(Connection connection) {
         this.connection = connection;
+        this.pieceSerializer = PieceSerializer.initialize();
     }
 
     public void initialize() {
@@ -100,7 +102,7 @@ public class GameRepository {
         for (int rank = 1; rank <= 8; rank++) {
             for (int file = 1; file <= 8; file++) {
                 Piece piece = board.findPieceAt(Position.of(file, rank));
-                builder.append(piece.text());
+                builder.append(pieceSerializer.textOf(piece));
             }
         }
         return builder.toString();
