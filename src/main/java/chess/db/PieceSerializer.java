@@ -18,7 +18,7 @@ public class PieceSerializer {
 
     private final Map<Piece, String> pieceTextMap;
 
-    public PieceSerializer(Map<Piece, String> pieceTextMap) {
+    private PieceSerializer(Map<Piece, String> pieceTextMap) {
         this.pieceTextMap = pieceTextMap;
     }
 
