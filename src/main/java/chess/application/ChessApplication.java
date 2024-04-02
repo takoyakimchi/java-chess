@@ -14,27 +14,27 @@ import java.util.Map;
 
 public class ChessApplication {
 
-    private static final InputView inputView = new InputView();
-    private static final OutputView outputView = new OutputView();
-    private static final GameRepository gameRepository = new GameRepository();
+    private static final InputView INPUT_VIEW = new InputView();
+    private static final OutputView OUTPUT_VIEW = new OutputView();
+    private static final GameRepository GAME_REPOSITORY = new GameRepository();
 
     public static void main(String[] args) {
-        outputView.printStartMessage();
+        OUTPUT_VIEW.printStartMessage();
         Board board = Board.generatedBy(new InitialBoardGenerator());
         Game game = Game.from(board);
         while (game.isRunning()) {
             game = play(game);
         }
-        outputView.printEndMessage();
-        outputView.printStatus(game.decideWinStatus());
+        OUTPUT_VIEW.printEndMessage();
+        OUTPUT_VIEW.printStatus(game.decideWinStatus());
     }
 
     private static Game play(Game game) {
         try {
-            Command command = inputView.readCommand();
+            Command command = INPUT_VIEW.readCommand();
             return executeCommand(game, command);
         } catch (UnsupportedOperationException | IllegalArgumentException | IllegalStateException exception) {
-            outputView.printErrorMessage(exception.getMessage());
+            OUTPUT_VIEW.printErrorMessage(exception.getMessage());
             return play(game);
         }
     }
@@ -55,28 +55,28 @@ public class ChessApplication {
 
     private static Game start(Game game) {
         game.start();
-        gameRepository.initialize();
-        game = gameRepository.loadGame();
-        outputView.printBoard(game.getBoard());
+        GAME_REPOSITORY.initialize();
+        game = GAME_REPOSITORY.loadGame();
+        OUTPUT_VIEW.printBoard(game.getBoard());
         return game;
     }
 
     private static Game move(Game game, Command command) {
-        Position source = inputView.resolvePosition(command.argumentOf(0));
-        Position target = inputView.resolvePosition(command.argumentOf(1));
+        Position source = INPUT_VIEW.resolvePosition(command.argumentOf(0));
+        Position target = INPUT_VIEW.resolvePosition(command.argumentOf(1));
         game = game.moved(source, target);
         if (game.isRunning()) {
-            gameRepository.saveGame(game.getBoard(), game.currentTurn());
+            GAME_REPOSITORY.saveGame(game.getBoard(), game.currentTurn());
         }
         if (game.isEnd()) {
-            gameRepository.saveGame(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
+            GAME_REPOSITORY.saveGame(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
         }
-        outputView.printBoard(game.getBoard());
+        OUTPUT_VIEW.printBoard(game.getBoard());
         return game;
     }
 
     private static Game showStatus(Game game) {
-        outputView.printStatus(game.decideWinStatus());
+        OUTPUT_VIEW.printStatus(game.decideWinStatus());
         return game;
     }
 
