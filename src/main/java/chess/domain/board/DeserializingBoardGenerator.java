@@ -39,29 +39,29 @@ public class DeserializingBoardGenerator implements BoardGenerator {
     }
 
     private Map<Character, Piece> toPieceMap() {
-        Map<Character, Piece> toPieceMap = new HashMap<>();
-        putWhitePieces(toPieceMap);
-        putBlackPieces(toPieceMap);
-        return toPieceMap;
+        Map<Character, Piece> pieces = new HashMap<>();
+        putWhitePieces(pieces);
+        putBlackPieces(pieces);
+        return pieces;
     }
 
-    private static void putWhitePieces(Map<Character, Piece> toPieceMap) {
-        toPieceMap.put('b', Bishop.withColor(WHITE));
-        toPieceMap.put('q', Queen.withColor(WHITE));
-        toPieceMap.put('r', Rook.withColor(WHITE));
-        toPieceMap.put('k', King.withColor(WHITE));
-        toPieceMap.put('n', Knight.withColor(WHITE));
-        toPieceMap.put('.', NoPiece.getInstance());
-        toPieceMap.put('p', Pawn.withColor(WHITE));
+    private static void putWhitePieces(Map<Character, Piece> pieces) {
+        pieces.put('b', Bishop.withColor(WHITE));
+        pieces.put('q', Queen.withColor(WHITE));
+        pieces.put('r', Rook.withColor(WHITE));
+        pieces.put('k', King.withColor(WHITE));
+        pieces.put('n', Knight.withColor(WHITE));
+        pieces.put('.', NoPiece.getInstance());
+        pieces.put('p', Pawn.withColor(WHITE));
     }
 
-    private void putBlackPieces(Map<Character, Piece> toPieceMap) {
-        toPieceMap.put('B', Bishop.withColor(BLACK));
-        toPieceMap.put('Q', Queen.withColor(BLACK));
-        toPieceMap.put('R', Rook.withColor(BLACK));
-        toPieceMap.put('K', King.withColor(BLACK));
-        toPieceMap.put('N', Knight.withColor(BLACK));
-        toPieceMap.put('.', NoPiece.getInstance());
-        toPieceMap.put('P', Pawn.withColor(BLACK));
+    private void putBlackPieces(Map<Character, Piece> pieces) {
+        pieces.put('B', Bishop.withColor(BLACK));
+        pieces.put('Q', Queen.withColor(BLACK));
+        pieces.put('R', Rook.withColor(BLACK));
+        pieces.put('K', King.withColor(BLACK));
+        pieces.put('N', Knight.withColor(BLACK));
+        pieces.put('.', NoPiece.getInstance());
+        pieces.put('P', Pawn.withColor(BLACK));
     }
 }
