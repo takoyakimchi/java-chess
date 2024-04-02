@@ -3,7 +3,7 @@ package chess.domain.game.state;
 public abstract class TurnState implements GameState {
 
     @Override
-    public GameState start() {
+    public void start() {
         throw new UnsupportedOperationException("게임이 이미 시작되었습니다.");
     }
 

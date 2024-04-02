@@ -35,8 +35,8 @@ public class Game {
         return new Game(board, new BlackTurnState());
     }
 
-    public Game started() {
-        return new Game(board, gameState.start());
+    public void start() {
+        gameState.start();
     }
 
     public Game moved(Position source, Position target) {

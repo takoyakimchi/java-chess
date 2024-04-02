@@ -5,7 +5,7 @@ import chess.domain.piece.Color;
 public class EndState implements GameState {
 
     @Override
-    public GameState start() {
+    public void start() {
         throw new UnsupportedOperationException("게임이 종료되었습니다.");
     }
 

@@ -5,8 +5,8 @@ import chess.domain.piece.Color;
 public class ReadyState implements GameState {
 
     @Override
-    public GameState start() {
-        return new WhiteTurnState();
+    public void start() {
+
     }
 
     @Override

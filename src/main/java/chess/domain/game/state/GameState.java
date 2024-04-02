@@ -4,7 +4,7 @@ import chess.domain.piece.Color;
 
 public interface GameState {
 
-    GameState start();
+    void start();
 
     GameState move();
 
