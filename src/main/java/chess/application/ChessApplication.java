@@ -1,6 +1,5 @@
 package chess.application;
 
-import chess.db.ChessDao;
 import chess.db.GameRepository;
 import chess.domain.board.Board;
 import chess.domain.board.InitialBoardGenerator;
@@ -17,8 +16,7 @@ public class ChessApplication {
 
     private static final InputView inputView = new InputView();
     private static final OutputView outputView = new OutputView();
-    private static final ChessDao chessDao = new ChessDao();
-    private static final GameRepository gameRepository = new GameRepository(chessDao.getConnection());
+    private static final GameRepository gameRepository = new GameRepository();
 
     public static void main(String[] args) {
         outputView.printStartMessage();

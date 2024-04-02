@@ -10,11 +10,19 @@ import chess.domain.piece.Color;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GameRepository {
+
+    private static final String URL = "localhost";
+    private static final String PORT = "13306";
+    private static final String DATABASE = "chess";
+    private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "root";
 
     private static final int MINIMUM_BOARD_INDEX = 1;
     private static final int MAXIMUM_BOARD_INDEX = 8;
@@ -22,9 +30,18 @@ public class GameRepository {
     private final Connection connection;
     private final PieceSerializer pieceSerializer;
 
-    public GameRepository(Connection connection) {
-        this.connection = connection;
+    public GameRepository() {
+        this.connection = getConnection();
         this.pieceSerializer = PieceSerializer.initialize();
+    }
+
+    private Connection getConnection() {
+        try {
+            return DriverManager.getConnection(
+                "jdbc:mysql://" + URL + ":" + PORT + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            throw new IllegalStateException("서버 연결이 끊겼습니다.");
+        }
     }
 
     public void initialize() {
