@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class ChessDao {
 
-    private static final String SERVER = "localhost:13306";
+    private static final String URL = "localhost";
+    private static final String PORT = "13306";
     private static final String DATABASE = "chess";
     private static final String OPTION = "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String USERNAME = "root";
@@ -14,7 +15,8 @@ public class ChessDao {
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection("jdbc:mysql://" + SERVER + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
+            return DriverManager.getConnection(
+                "jdbc:mysql://" + URL + ":" + PORT + "/" + DATABASE + OPTION, USERNAME, PASSWORD);
         } catch (SQLException e) {
             throw new IllegalStateException("서버 연결이 끊겼습니다.");
         }
