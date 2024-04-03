@@ -3,11 +3,8 @@ package chess.db;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 import chess.domain.board.Board;
-import chess.domain.board.DeserializingBoardGenerator;
 import chess.domain.game.Game;
 import chess.domain.piece.Color;
-import chess.domain.piece.Piece;
-import chess.domain.position.Position;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,15 +22,12 @@ public class GameRepository {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static final int MINIMUM_BOARD_INDEX = 1;
-    private static final int MAXIMUM_BOARD_INDEX = 8;
-
     private final Connection connection;
-    private final PieceSerializer pieceSerializer;
+    private final ObjectSerializer serializer;
 
     public GameRepository() {
         this.connection = getConnection();
-        this.pieceSerializer = PieceSerializer.initialize();
+        this.serializer = new ObjectSerializer();
     }
 
     private Connection getConnection() {
@@ -89,7 +83,7 @@ public class GameRepository {
             resultSet.next();
             String boardText = resultSet.getString("board_text");
             String turnText = resultSet.getString("turn_text");
-            return Game.withTurn(deserializeBoard(boardText), deserializeColor(turnText));
+            return Game.withTurn(serializer.deserializeBoard(boardText), serializer.deserializeColor(turnText));
         } catch (SQLException exception) {
             throw new IllegalStateException("방 번호를 올바르게 입력해 주세요.");
         }
@@ -99,8 +93,8 @@ public class GameRepository {
         String query = "INSERT INTO board (board_text, turn_text) VALUES(?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(query, RETURN_GENERATED_KEYS);
-            statement.setString(1, serializeBoard(board));
-            statement.setString(2, serializeColor(currentTurn));
+            statement.setString(1, serializer.serializeBoard(board));
+            statement.setString(2, serializer.serializeColor(currentTurn));
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             resultSet.next();
@@ -114,8 +108,8 @@ public class GameRepository {
         String query = "UPDATE board SET board_text=?, turn_text=? WHERE game_id=?";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, serializeBoard(board));
-            statement.setString(2, serializeColor(currentTurn));
+            statement.setString(1, serializer.serializeBoard(board));
+            statement.setString(2, serializer.serializeColor(currentTurn));
             statement.setInt(3, gameId);
             statement.executeUpdate();
         } catch (SQLException exception) {
@@ -132,34 +126,5 @@ public class GameRepository {
         } catch (SQLException exception) {
             throw new IllegalStateException("게임을 삭제할 수 없습니다.");
         }
-    }
-
-    private String serializeBoard(Board board) {
-        StringBuilder builder = new StringBuilder();
-        for (int rank = MINIMUM_BOARD_INDEX; rank <= MAXIMUM_BOARD_INDEX; rank++) {
-            builder.append(serializeRank(board, rank));
-        }
-        return builder.toString();
-    }
-
-    private String serializeRank(Board board, int rank) {
-        StringBuilder builder = new StringBuilder();
-        for (int file = MINIMUM_BOARD_INDEX; file <= MAXIMUM_BOARD_INDEX; file++) {
-            Piece piece = board.findPieceAt(Position.of(file, rank));
-            builder.append(pieceSerializer.textOf(piece));
-        }
-        return builder.toString();
-    }
-
-    private Board deserializeBoard(String boardText) {
-        return Board.generatedBy(new DeserializingBoardGenerator(boardText));
-    }
-
-    private String serializeColor(Color color) {
-        return color.name();
-    }
-
-    private Color deserializeColor(String colorText) {
-        return Color.valueOf(colorText);
     }
 }
