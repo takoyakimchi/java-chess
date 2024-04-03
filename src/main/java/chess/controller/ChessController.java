@@ -30,7 +30,7 @@ public class ChessController {
         outputView.printStartMessage();
         outputView.printGameIds(gameRepository.findGameIds());
         int gameId = selectGame();
-        Game game = gameRepository.findGameById(gameId);
+        Game game = findGame(gameId);
         outputView.printMessageWhenEnteredRoom(gameId);
         outputView.printBoard(game.getBoard());
         while (game.isRunning()) {
@@ -38,6 +38,15 @@ public class ChessController {
         }
         outputView.printEndMessage();
         outputView.printStatus(game.decideWinStatus());
+    }
+
+    private Game findGame(int gameId) {
+        try {
+            return gameRepository.findGameById(gameId);
+        } catch (IllegalStateException exception) {
+            outputView.printErrorMessage(exception.getMessage());
+            return gameRepository.findGameById(selectGame());
+        }
     }
 
     private int selectGame() {
