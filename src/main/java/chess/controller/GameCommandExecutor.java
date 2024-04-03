@@ -1,4 +1,4 @@
-package chess.application;
+package chess.controller;
 
 import chess.domain.game.Game;
 
