@@ -19,38 +19,60 @@ public class ChessApplication {
     private static final GameRepository GAME_REPOSITORY = new GameRepository();
 
     public static void main(String[] args) {
-        OUTPUT_VIEW.printStartMessage();
-        Board board = Board.generatedBy(new InitialBoardGenerator());
-        Game game = Game.from(board);
+        OUTPUT_VIEW.printStartMessage(GAME_REPOSITORY.findGameIds());
+        int gameId = selectGame();
+        Game game = GAME_REPOSITORY.findGameById(gameId);
+        OUTPUT_VIEW.printMessageWhenEnteredRoom(gameId);
+        OUTPUT_VIEW.printBoard(game.getBoard());
         while (game.isRunning()) {
-            game = play(game);
+            game = play(game, gameId);
         }
         OUTPUT_VIEW.printEndMessage();
         OUTPUT_VIEW.printStatus(game.decideWinStatus());
     }
 
-    private static Game play(Game game) {
+    private static int selectGame() {
         try {
             Command command = INPUT_VIEW.readCommand();
-            return executeCommand(game, command);
+            return executeLobbyCommand(command);
         } catch (UnsupportedOperationException | IllegalArgumentException | IllegalStateException exception) {
             OUTPUT_VIEW.printErrorMessage(exception.getMessage());
-            return play(game);
+            return selectGame();
         }
     }
 
-    private static Game executeCommand(Game game, Command command) {
-        Map<CommandType, CommandExecutor> commandExecutionMap = commandExecutionMap(game, command);
-        return commandExecutionMap.get(command.type()).execute();
+    private static int executeLobbyCommand(Command command) {
+        if (command.type() == CommandType.MAKE) {
+            return GAME_REPOSITORY.makeGameThenFindId(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
+        }
+        if (command.type() == CommandType.ENTER) {
+            return Integer.parseInt(command.argumentOf(0));
+        }
+        throw new IllegalArgumentException("게임 로비에서 사용할 수 없는 명령어입니다.");
     }
 
-    private static Map<CommandType, CommandExecutor> commandExecutionMap(Game game, Command command) {
-        return Map.of(
+    private static Game play(Game game, int gameId) {
+        try {
+            Command command = INPUT_VIEW.readCommand();
+            return executeGameCommand(game, gameId, command);
+        } catch (UnsupportedOperationException | IllegalArgumentException | IllegalStateException exception) {
+            OUTPUT_VIEW.printErrorMessage(exception.getMessage());
+            return play(game, gameId);
+        }
+    }
+
+    private static Game executeGameCommand(Game game, int gameId, Command command) {
+        Map<CommandType, GameCommandExecutor> commandExecutionMap = Map.of(
             CommandType.START, () -> start(game),
-            CommandType.MOVE, () -> move(game, command),
+            CommandType.MOVE, () -> move(game, gameId, command),
             CommandType.STATUS, () -> showStatus(game),
             CommandType.END, () -> end(game)
         );
+        try {
+            return commandExecutionMap.get(command.type()).execute();
+        } catch (NullPointerException exception) {
+            throw new IllegalArgumentException("게임 진행중에 입력할 수 없는 명령어입니다.");
+        }
     }
 
     private static Game start(Game game) {
@@ -61,15 +83,16 @@ public class ChessApplication {
         return game;
     }
 
-    private static Game move(Game game, Command command) {
+    private static Game move(Game game, int gameId, Command command) {
         Position source = INPUT_VIEW.resolvePosition(command.argumentOf(0));
         Position target = INPUT_VIEW.resolvePosition(command.argumentOf(1));
         game = game.moved(source, target);
         if (game.isRunning()) {
-            GAME_REPOSITORY.saveGame(game.getBoard(), game.currentTurn());
+            GAME_REPOSITORY.saveGame(gameId, game.getBoard(), game.currentTurn());
         }
         if (game.isEnd()) {
-            GAME_REPOSITORY.saveGame(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
+            GAME_REPOSITORY.deleteGame(gameId);
+//            GAME_REPOSITORY.saveGame(gameId, Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
         }
         OUTPUT_VIEW.printBoard(game.getBoard());
         return game;

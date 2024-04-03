@@ -7,12 +7,14 @@ import chess.domain.board.Board;
 import chess.domain.game.WinStatus;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
+import java.util.List;
 
 public class OutputView {
 
-    private static final String START_COMMAND = "start";
     private static final String END_COMMAND = "end";
     private static final String MOVE_COMMAND = "move";
+    private static final String MAKE_COMMAND = "make";
+    private static final String ENTER_COMMAND = "enter";
 
     private final PieceTextMapper pieceTextMapper;
 
@@ -20,11 +22,24 @@ public class OutputView {
         this.pieceTextMapper = PieceTextMapper.initialize();
     }
 
-    public void printStartMessage() {
+    public void printStartMessage(List<Integer> gameIds) {
         System.out.println("> 체스 게임을 시작합니다.");
-        System.out.printf("> 게임 시작 : %s%n", START_COMMAND);
+        printGameIds(gameIds);
+    }
+
+    private void printGameIds(List<Integer> gameIds) {
+        System.out.println();
+        System.out.println("[방 목록]");
+        gameIds.forEach(id -> System.out.printf("- 방 번호: %d%n", id));
+        System.out.println();
+        System.out.printf("> 방 만들기 : %s (방 번호는 자동으로 부여됩니다.)%n", MAKE_COMMAND);
+        System.out.printf("> 방 들어가기 : %s 방번호 - 예. %s 4%n%n", ENTER_COMMAND, ENTER_COMMAND);
+    }
+
+    public void printMessageWhenEnteredRoom(int roomNumber) {
+        System.out.printf("%d번 방에 접속하였습니다.%n%n", roomNumber);
         System.out.printf("> 게임 종료 : %s%n", END_COMMAND);
-        System.out.printf("> 게임 이동 : %s source위치 target위치 - 예. %s b2 b3%n", MOVE_COMMAND, MOVE_COMMAND);
+        System.out.printf("> 게임 이동 : %s source위치 target위치 - 예. %s b2 b3%n%n", MOVE_COMMAND, MOVE_COMMAND);
     }
 
     public void printBoard(Board board) {

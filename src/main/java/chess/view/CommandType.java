@@ -9,6 +9,8 @@ public enum CommandType {
     END("end", 1),
     MOVE("move", 3),
     STATUS("status", 1),
+    MAKE("make", 1),
+    ENTER("enter", 2),
     ;
 
     private static final String DELIMITER = " ";
