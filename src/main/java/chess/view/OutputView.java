@@ -22,14 +22,16 @@ public class OutputView {
         this.pieceTextMapper = PieceTextMapper.initialize();
     }
 
-    public void printStartMessage(List<Integer> gameIds) {
+    public void printStartMessage() {
         System.out.println("> 체스 게임을 시작합니다.");
-        printGameIds(gameIds);
     }
 
-    private void printGameIds(List<Integer> gameIds) {
+    public void printGameIds(List<Integer> gameIds) {
         System.out.println();
         System.out.println("[방 목록]");
+        if (gameIds.isEmpty()) {
+            System.out.printf("방이 없습니다. %s 명령어를 입력하여 새로 만들어 주세요.%n", MAKE_COMMAND);
+        }
         gameIds.forEach(id -> System.out.printf("- 방 번호: %d%n", id));
         System.out.println();
         System.out.printf("> 방 만들기 : %s (방 번호는 자동으로 부여됩니다.)%n", MAKE_COMMAND);

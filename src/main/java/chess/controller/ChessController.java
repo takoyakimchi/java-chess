@@ -26,7 +26,9 @@ public class ChessController {
     }
 
     public void run() {
-        outputView.printStartMessage(gameRepository.findGameIds());
+        gameRepository.createTableIfNotExists();
+        outputView.printStartMessage();
+        outputView.printGameIds(gameRepository.findGameIds());
         int gameId = selectGame();
         Game game = gameRepository.findGameById(gameId);
         outputView.printMessageWhenEnteredRoom(gameId);
