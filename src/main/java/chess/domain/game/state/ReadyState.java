@@ -5,11 +5,6 @@ import chess.domain.piece.Color;
 public class ReadyState implements GameState {
 
     @Override
-    public void start() {
-
-    }
-
-    @Override
     public GameState move() {
         throw new UnsupportedOperationException("게임을 시작해야 말을 움직일 수 있습니다.");
     }

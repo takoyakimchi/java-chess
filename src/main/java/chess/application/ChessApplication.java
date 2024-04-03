@@ -63,7 +63,6 @@ public class ChessApplication {
 
     private static Game executeGameCommand(Game game, int gameId, Command command) {
         Map<CommandType, GameCommandExecutor> commandExecutionMap = Map.of(
-            CommandType.START, () -> start(game),
             CommandType.MOVE, () -> move(game, gameId, command),
             CommandType.STATUS, () -> showStatus(game),
             CommandType.END, () -> end(game)
@@ -75,14 +74,6 @@ public class ChessApplication {
         }
     }
 
-    private static Game start(Game game) {
-        game.start();
-        GAME_REPOSITORY.initialize();
-        game = GAME_REPOSITORY.loadGame();
-        OUTPUT_VIEW.printBoard(game.getBoard());
-        return game;
-    }
-
     private static Game move(Game game, int gameId, Command command) {
         Position source = INPUT_VIEW.resolvePosition(command.argumentOf(0));
         Position target = INPUT_VIEW.resolvePosition(command.argumentOf(1));
@@ -92,7 +83,6 @@ public class ChessApplication {
         }
         if (game.isEnd()) {
             GAME_REPOSITORY.deleteGame(gameId);
-//            GAME_REPOSITORY.saveGame(gameId, Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
         }
         OUTPUT_VIEW.printBoard(game.getBoard());
         return game;
