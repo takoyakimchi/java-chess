@@ -75,7 +75,7 @@ public class GameRepository {
     }
 
     public Game findGameById(int roomNumber) {
-        String query = "SELECT * FROM board WHERE game_id=?";
+        String query = "SELECT * FROM board WHERE game_id=? LIMIT 1";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, roomNumber);
