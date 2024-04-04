@@ -2,7 +2,6 @@ package chess.controller;
 
 import chess.db.GameRepository;
 import chess.domain.board.Board;
-import chess.domain.board.InitialBoardGenerator;
 import chess.domain.game.Game;
 import chess.domain.piece.Color;
 import chess.domain.position.Position;
@@ -60,7 +59,7 @@ public class ChessController {
 
     private int executeLobbyCommand(Command command) {
         if (command.type() == CommandType.MAKE) {
-            return gameRepository.makeGameThenFindId(Board.generatedBy(new InitialBoardGenerator()), Color.WHITE);
+            return gameRepository.makeGameThenFindId(Board.initialize(), Color.WHITE);
         }
         if (command.type() == CommandType.ENTER) {
             return Integer.parseInt(command.argumentOf(0));

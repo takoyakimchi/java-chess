@@ -28,6 +28,10 @@ public class Board {
         return new Board(boardGenerator.generate());
     }
 
+    public static Board initialize() {
+        return new Board(new InitialBoardGenerator().generate());
+    }
+
     public void move(Position source, Position target, Color color) {
         Piece piece = board.get(source);
         validateMove(source, target, color);

@@ -33,7 +33,7 @@ class BoardTest {
     @Test
     @DisplayName("실패: 출발점에 말이 없으면 이동 불가")
     void move_NoPieceAtSourcePosition() {
-        Board board = Board.generatedBy(new InitialBoardGenerator());
+        Board board = Board.initialize();
         Position sourcePosition = Position.of(4, 4);
         Position targetPosition = Position.of(4, 5);
 
@@ -47,7 +47,7 @@ class BoardTest {
     void move_IllegalMove() {
         Position sourcePosition = Position.of(2, 1);
         Position targetPosition = Position.of(3, 4);
-        Board board = Board.generatedBy(new InitialBoardGenerator());
+        Board board = Board.initialize();
 
         assertThatThrownBy(() -> board.move(sourcePosition, targetPosition, Color.WHITE))
             .isInstanceOf(IllegalArgumentException.class)
