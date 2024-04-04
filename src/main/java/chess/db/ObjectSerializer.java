@@ -65,7 +65,7 @@ public class ObjectSerializer {
         }
     }
 
-    private static void putWhitePieces(Map<Piece, String> pieces) {
+    private void putWhitePieces(Map<Piece, String> pieces) {
         pieces.put(Bishop.withColor(WHITE), "b");
         pieces.put(Queen.withColor(WHITE), "q");
         pieces.put(Rook.withColor(WHITE), "r");
@@ -74,7 +74,7 @@ public class ObjectSerializer {
         pieces.put(Pawn.withColor(WHITE), "p");
     }
 
-    private static void putBlackPieces(Map<Piece, String> pieces) {
+    private void putBlackPieces(Map<Piece, String> pieces) {
         pieces.put(Bishop.withColor(BLACK), "B");
         pieces.put(Queen.withColor(BLACK), "Q");
         pieces.put(Rook.withColor(BLACK), "R");
